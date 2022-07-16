@@ -38,7 +38,7 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      WriteGoalPanel writeGoalPanel = new WriteGoalPanel();
+      WriteGoalPanel writeGoalPanel = new WriteGoalPanel(contentPanel, mainPanel);
       showWritePanel(writeGoalPanel);
     });
     return button;
