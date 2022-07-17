@@ -13,6 +13,7 @@ public class WriteGoalPanel extends JPanel {
   private String title;
   private JLabel titleLabel;
   private DetailPagePanel detailPagePanel;
+  private List<Post> posts;
 
   public WriteGoalPanel(JPanel contentPanel, JPanel mainPanel,
                         List<Post> posts, JFrame frame) {
@@ -33,14 +34,14 @@ public class WriteGoalPanel extends JPanel {
       title = titleField.getText();
       content = writeContent.getText();
 
-      post = new Post(title,content,Post.PROGRESS);
+      post = new Post(title, content, Post.PROGRESS);
       posts.add(post);
 
-      showMainPanel(contentPanel, mainPanel,titleField);
+      showMainPanel(contentPanel, mainPanel);
 
       titleLabel.addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent event) {
-          detailPagePanel = new DetailPagePanel(post,contentPanel,mainPanel);
+          detailPagePanel = new DetailPagePanel(posts, post, contentPanel, mainPanel);
 
           frame.add(detailPagePanel);
           contentPanel.setVisible(false);
@@ -53,7 +54,7 @@ public class WriteGoalPanel extends JPanel {
     this.add(registerButton);
   }
 
-  private void showMainPanel(JPanel contentPanel, JPanel mainPanel, JTextField titleField) {
+  private void showMainPanel(JPanel contentPanel, JPanel mainPanel) {
     this.setVisible(false);
     mainPanel.setVisible(true);
     titleLabel = new JLabel(post.title());

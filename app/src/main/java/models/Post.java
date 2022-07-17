@@ -23,8 +23,12 @@ public class Post {
     return content;
   }
 
+  public String state() {
+    return this.state;
+  }
+
   public void delete() {
-    this.state = "DELETION";
+    this.state = DELETION;
   }
 
   public void modifyTitle(String modifyTitle) {
@@ -33,5 +37,9 @@ public class Post {
 
   public void modifyContent(String modifyedContent) {
     this.content = modifyedContent;
+  }
+
+  public String toCsvRow() {
+    return title + ","  + content + "," + state;
   }
 }
