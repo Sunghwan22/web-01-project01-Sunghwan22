@@ -3,6 +3,7 @@ package models;
 public class Post {
   public static final String PROGRESS = "PROGRESS";
   public static final String COMPLETE = "COMPLETE";
+  public static final String DELETION = "DELETION";
 
   private String title;
   private String content;
@@ -14,7 +15,23 @@ public class Post {
     this.state = state;
   }
 
-  public void progressState() {
+  public String title() {
+    return title;
+  }
 
+  public String content() {
+    return content;
+  }
+
+  public void delete() {
+    this.state = "DELETION";
+  }
+
+  public void modifyTitle(String modifyTitle) {
+    this.title = modifyTitle;
+  }
+
+  public void modifyContent(String modifyedContent) {
+    this.content = modifyedContent;
   }
 }

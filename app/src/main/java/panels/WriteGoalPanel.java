@@ -8,10 +8,10 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class WriteGoalPanel extends JPanel {
+  private Post post;
   private String content;
   private String title;
-  private JLabel textLabel;
-  private List<Post> posts;
+  private JLabel titleLabel;
   private DetailPagePanel detailPagePanel;
 
   public WriteGoalPanel(JPanel contentPanel, JPanel mainPanel,
@@ -29,16 +29,18 @@ public class WriteGoalPanel extends JPanel {
 
     JButton registerButton = new JButton("등록");
     registerButton.addActionListener(event -> {
-      showMainPanel(contentPanel, mainPanel, titleField);
 
       title = titleField.getText();
       content = writeContent.getText();
 
-      posts.add(new Post(title, content, Post.PROGRESS));
+      post = new Post(title,content,Post.PROGRESS);
+      posts.add(post);
 
-      textLabel.addMouseListener(new MouseAdapter() {
+      showMainPanel(contentPanel, mainPanel,titleField);
+
+      titleLabel.addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent event) {
-          detailPagePanel = new DetailPagePanel(title, content);
+          detailPagePanel = new DetailPagePanel(post,contentPanel,mainPanel);
 
           frame.add(detailPagePanel);
           contentPanel.setVisible(false);
@@ -54,8 +56,8 @@ public class WriteGoalPanel extends JPanel {
   private void showMainPanel(JPanel contentPanel, JPanel mainPanel, JTextField titleField) {
     this.setVisible(false);
     mainPanel.setVisible(true);
-    textLabel = new JLabel(titleField.getText());
-    contentPanel.add(textLabel);
+    titleLabel = new JLabel(post.title());
+    contentPanel.add(titleLabel);
     contentPanel.setVisible(true);
   }
 }
