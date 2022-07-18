@@ -1,6 +1,6 @@
-
 import models.Post;
-import panels.DetailPagePanel;
+import panels.ContentPanel;
+import panels.DetailPageFrame;
 import panels.WriteGoalPanel;
 
 import javax.swing.*;
@@ -11,16 +11,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DeclareBoard {
   private JFrame frame;
-  private JPanel mainPanel;
-  private JPanel contentPanel;
+  private JPanel menuPanel;
   private List<Post> posts;
   private PostLoader postLoader;
-  private DetailPagePanel detailPagePanel;
+  private WriteGoalPanel writeGoalPanel;
+  private ContentPanel contentPanel;
+  private Post post;
+  private JPanel subPanel;
 
 
   public static void main(String[] args) throws FileNotFoundException {
@@ -29,16 +30,16 @@ public class DeclareBoard {
   }
 
   public DeclareBoard() throws FileNotFoundException {
-    posts = new ArrayList<>();
-
     postLoader = new PostLoader();
-    posts = postLoader.loadpost();
+    posts = postLoader.loadPost();
   }
 
   private void run() throws FileNotFoundException {
     createFrame();
 
     initMenuPanel();
+
+    initBackGroundPanel();
 
     initContentPanel();
 
@@ -54,53 +55,58 @@ public class DeclareBoard {
   }
 
   private void initMenuPanel() {
-    mainPanel = new JPanel();
-    mainPanel.add(createWriteButton());
-    //mainPanel.add(create)
-    frame.add(mainPanel, BorderLayout.PAGE_START);
+    menuPanel = new JPanel();
+    menuPanel.add(createWriteButton());
+    menuPanel.add(createMenuButton());
+    frame.add(menuPanel, BorderLayout.PAGE_START);
+    menuPanel.setBackground(Color.green);
+  }
+
+  private JButton createMenuButton() {
+    JButton button = new JButton();
+    button.addActionListener(event -> {
+      menuPanel.setVisible(true);
+      contentPanel.setVisible(true);
+    });
+    return button;
   }
 
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      WriteGoalPanel writeGoalPanel = new WriteGoalPanel(contentPanel, mainPanel,
-          posts, frame);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts,subPanel);
       showWritePanel(writeGoalPanel);
     });
     return button;
   }
 
+  private void initBackGroundPanel() {
+    subPanel = new JPanel();
+    subPanel.removeAll();
+    for (Post post : posts) {
+      if (!post.state().equals("DELETION")) {
+        JLabel titleLabel = new JLabel(post.title());
+        titleLabel.addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent event) {
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,subPanel);
+            detailPageFrame.setVisible(true);
+          }
+        });
+        subPanel.add(titleLabel);
+      }
+    }
+    frame.add(subPanel);
+  }
+
   private void initContentPanel() {
-    contentPanel = new JPanel();
-    showContentPanel();
-    frame.add(contentPanel);
-    contentPanel.setBackground(Color.green);
+    contentPanel = new ContentPanel(posts,post,subPanel);
   }
 
   private void showWritePanel(WriteGoalPanel writeGoalPanel) {
     frame.add(writeGoalPanel);
-    mainPanel.setVisible(false);
-    contentPanel.setVisible(false);
+    menuPanel.setVisible(false);
+    subPanel.setVisible(false);
     writeGoalPanel.setVisible(true);
-  }
-
-  public void showContentPanel() {
-    for (Post post : posts) {
-      if (!post.state().equals(Post.DELETION)) {
-
-        JLabel titleLabel = new JLabel(post.title());
-        titleLabel.addMouseListener(new MouseAdapter() {
-          public void mouseClicked(MouseEvent event) {
-            detailPagePanel = new DetailPagePanel(posts, post, contentPanel, mainPanel);
-            frame.add(detailPagePanel);
-            contentPanel.setVisible(false);
-            mainPanel.setVisible(false);
-            detailPagePanel.setVisible(true);
-          }
-        });
-        contentPanel.add(titleLabel);
-      }
-    }
   }
 
   public void postWriter() {
