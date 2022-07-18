@@ -2,7 +2,6 @@ import models.Post;
 import panels.ContentPanel;
 import Frame.DetailPageFrame;
 import panels.WriteGoalPanel;
-import utils.PasswordLoader;
 import utils.PostLoader;
 
 import javax.swing.*;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class DeclareBoard {
-  private PasswordLoader passwordLoader;
   private List<Post> posts;
   private PostLoader postLoader;
   private Post post;
@@ -35,9 +33,6 @@ public class DeclareBoard {
   public DeclareBoard() throws FileNotFoundException {
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
-
-    passwordLoader = new PasswordLoader();
-    passwords = passwordLoader.loadPassword();
   }
 
   private void run() throws FileNotFoundException {
@@ -50,7 +45,6 @@ public class DeclareBoard {
     initContentPanel();
 
     savePosts();
-    savePasswords();
 
     frame.setVisible(true);
   }
@@ -94,7 +88,7 @@ public class DeclareBoard {
         JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel,passwords);
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel);
             detailPageFrame.setVisible(true);
           }
         });
@@ -122,20 +116,6 @@ public class DeclareBoard {
         PostLoader postLoader = new PostLoader();
         try {
           postLoader.postWriter(posts);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    });
-  }
-
-  public void savePasswords() {
-    frame.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent event) {
-        PasswordLoader passwordLoader = new PasswordLoader();
-        try {
-          passwordLoader.passwordWriter(passwords);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

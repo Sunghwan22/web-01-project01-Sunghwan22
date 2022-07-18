@@ -9,12 +9,14 @@ public class Post {
   private String content;
   private String state;
   private String nickName;
+  private String passWord;
 
-  public Post(String title, String content, String state,String nickName) {
+  public Post(String title, String content, String state, String nickName, String passWord) {
     this.title = title;
     this.content = content;
     this.state = state;
     this.nickName = nickName;
+    this.passWord = passWord;
   }
 
   public String title() {
@@ -33,6 +35,10 @@ public class Post {
     return this.nickName;
   }
 
+  public String passWord() {
+    return this.passWord;
+  }
+
   public void delete() {
     this.state = DELETION;
   }
@@ -46,6 +52,6 @@ public class Post {
   }
 
   public String toCsvRow() {
-    return title + "," + content + "," + nickName + "," + state;
+    return title + "," + content + "," + nickName + "," + passWord + "," + state;
   }
 }

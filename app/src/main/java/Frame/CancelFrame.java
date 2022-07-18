@@ -18,6 +18,7 @@ public class CancelFrame extends JFrame {
     this.setName("글쓰기");
     this.setSize(300,200);
     this.setLocation(350,350);
+    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     JLabel label = new JLabel("글 작성을 취소하시겠습니까?");
 

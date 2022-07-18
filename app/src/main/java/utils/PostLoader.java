@@ -42,9 +42,9 @@ public class PostLoader {
     String title = words[0];
     String content = words[1];
     String nickName = words[2];
-    String state = words[3];
+    String passWord = words[3];
+    String state = words[4];
 
-
-    return new Post(title, content, state, nickName);
+    return new Post(title, content, state, nickName, passWord);
   }
 }

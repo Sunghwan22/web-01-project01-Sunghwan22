@@ -4,8 +4,7 @@ import models.Post;
 import panels.ContentPanel;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
 import java.util.List;
 
 public class DetailPageFrame extends JFrame {
@@ -18,8 +17,9 @@ public class DetailPageFrame extends JFrame {
   private List<Post> posts;
   private JPanel mainPanel;
   private JPasswordField passwordField;
+  private String inputPassword;
 
-  public DetailPageFrame(Post post, List<Post> posts, JPanel subPanel, List<String> passwords) {
+  public DetailPageFrame(Post post, List<Post> posts, JPanel subPanel) {
     this.post = post;
     this.posts = posts;
     this.mainPanel = subPanel;
@@ -42,15 +42,14 @@ public class DetailPageFrame extends JFrame {
   }
 
   private void initPasswordField() {
+    JLabel label = new JLabel("비밀번호");
     passwordField = new JPasswordField(20);
-    passwordField.setBounds(50 , 12,200, 35);
-    passwordField.setText("비밀번호");
-    passwordField.addMouseListener(new MouseAdapter() {
-      public void mouseClicked(MouseEvent event) {
-        passwordField.setText("");
-      }
-    });
+    passwordField.setBounds(120, 12, 200, 35);
     panel.add(passwordField);
+    panel.add(label);
+    label.setBounds(60, 12, 150, 30);
+    char[] password = passwordField.getPassword();
+    inputPassword = String.valueOf(password);
   }
 
   private void initTitleField(Post post) {
@@ -81,9 +80,11 @@ public class DetailPageFrame extends JFrame {
     this.setSize(700, 700);
   }
 
-  private void initDeleteButton(Post post, List<Post> posts, JPanel mainPanel) {
+  public void initDeleteButton(Post post, List<Post> posts, JPanel mainPanel) {
     JButton deleteButton = new JButton("삭제하기");
     deleteButton.addActionListener(event -> {
+      checkPassword(post);
+
       post.delete();
 
       ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
@@ -98,6 +99,8 @@ public class DetailPageFrame extends JFrame {
   private void initmodifyButton() {
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
+      checkPassword(post);
+
       titleField.setEditable(true);
       contentArea.setEditable(true);
     });
@@ -108,6 +111,8 @@ public class DetailPageFrame extends JFrame {
   private void initCompleteModifyButton(Post post, List<Post> posts, JPanel mainPanel) {
     JButton modifyCompleteButton = new JButton("수정완료");
     modifyCompleteButton.addActionListener(event -> {
+      checkPassword(post);
+
       post.modifyTitle(titleField.getText());
       post.modifyContent(contentArea.getText());
 
@@ -124,5 +129,28 @@ public class DetailPageFrame extends JFrame {
     mainPanel.add(contentPanel);
     mainPanel.setVisible(false);
     mainPanel.setVisible(true);
+  }
+
+  private void checkPassword(Post post) {
+    if (!inputPassword.equals(post.passWord()) || inputPassword.isBlank()) {
+      informateMessage();
+    }
+  }
+
+  public void informateMessage() {
+    JFrame warningFrame = new JFrame("Warning");
+    warningFrame.setLayout(new GridLayout(2, 1));
+    warningFrame.setSize(200, 100);
+    warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    warningFrame.setVisible(true);
+
+    JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
+    warningFrame.add(messageLabel);
+
+    JButton button = new JButton("확인");
+    button.addActionListener(event2 -> {
+      warningFrame.setVisible(false);
+    });
+    warningFrame.add(button);
   }
 }
