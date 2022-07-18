@@ -32,7 +32,7 @@ public class ContentPanel extends JPanel {
           }
         });
         this.add(titleLabel);
-      }
-    }
+  }
+}
   }
 }

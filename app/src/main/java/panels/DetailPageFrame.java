@@ -93,7 +93,7 @@ public class DetailPageFrame extends JFrame {
       post.modifyTitle(titleField.getText());
       post.modifyContent(contentArea.getText());
 
-      ContentPanel contentPanel = new ContentPanel(posts, post, DetailPageFrame.this.mainPanel);
+      ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
       showMainPanel(contentPanel);
       this.setVisible(false);
     });
