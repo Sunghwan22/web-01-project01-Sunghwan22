@@ -4,8 +4,7 @@ import Frame.CancelFrame;
 import models.Post;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
 import java.util.List;
 
 public class WriteGoalPanel extends JPanel {
@@ -19,7 +18,7 @@ public class WriteGoalPanel extends JPanel {
   private JTextField userNameField;
   private JPasswordField passwordField;
   private ContentPanel contentPanel;
-
+  private String inputPassword;
 
 
   // todo 취소하기 뒤로가기 버튼 추가
@@ -46,32 +45,41 @@ public class WriteGoalPanel extends JPanel {
   }
 
   private void initUserNameField() {
+    JLabel label = new JLabel("닉네임");
     userNameField = new JTextField(10);
-    userNameField.setBounds(180, 12, 180, 35);
-    userNameField.setText("닉네임을 입력 해주세요");
-    userNameField.addMouseListener(new MouseAdapter() {
-      public void mouseClicked(MouseEvent event) {
-        userNameField.setText("");
-      }
-    });
+    userNameField.setBounds(240, 12, 150, 35);
+    label.setBounds(180, 12, 100, 35);
     this.add(userNameField);
+    this.add(label);
   }
 
   private void initPassWordField() {
-    passwordField = new JPasswordField(20);
-    passwordField.setBounds(370 , 12, 180, 35);
-    passwordField.setText("비밀번호");
-    passwordField.addMouseListener(new MouseAdapter() {
-      public void mouseClicked(MouseEvent event) {
-        passwordField.setText("");
-      }
-    });
+    JLabel label = new JLabel("비밀번호");
+    passwordField = new JPasswordField();
+    passwordField.setBounds(500, 12, 150, 35);
+    label.setBounds(440, 12, 150, 35);
     this.add(passwordField);
+    this.add(label);
+    char[] password = passwordField.getPassword();
+    inputPassword = String.valueOf(password);
+  }
+
+  public JButton initBackButton() {
+    JButton button = new JButton("뒤로가기");
+    button.addActionListener(event -> {
+      this.setVisible(false);
+      menuPanel.setVisible(true);
+      mainPanel.setVisible(false);
+      mainPanel.setVisible(true);
+    });
+    this.add(button);
+    button.setBounds(30, 5, 100, 50);
+    return button;
   }
 
   private void initTitleField() {
     titleField = new JTextField(20);
-    titleField.setBounds(50, 55, 500, 35);
+    titleField.setBounds(50, 55, 600, 35);
     this.add(titleField);
   }
 
@@ -85,6 +93,8 @@ public class WriteGoalPanel extends JPanel {
   private void initRegisterButton(JPanel menuPanel, List<Post> posts, JPanel mainPanel) {
     JButton registerButton = new JButton("등록");
     registerButton.addActionListener(event -> {
+      checknickName();
+      checkpassWord();
       String title = titleField.getText();
       String content = writeContent.getText();
 
@@ -94,7 +104,7 @@ public class WriteGoalPanel extends JPanel {
 
       passwords.add(passWord);
 
-      post = new Post(title, content, Post.PROGRESS, nickName);
+      post = new Post(title, content, Post.PROGRESS, nickName, passWord);
       posts.add(post);
 
       contentPanel = new ContentPanel(posts, post, mainPanel);
@@ -108,11 +118,51 @@ public class WriteGoalPanel extends JPanel {
   private void initCancelButton() {
     JButton button = new JButton("취소");
     button.addActionListener(event -> {
-      CancelFrame cancelFrame = new CancelFrame(this,mainPanel,menuPanel);
+      CancelFrame cancelFrame = new CancelFrame(this, mainPanel, menuPanel);
       cancelFrame.setVisible(true);
     });
     this.add(button);
-    button.setBounds(440,605,100,50);
+    button.setBounds(440, 605, 100, 50);
+  }
+
+  private void checkpassWord() {
+    if (inputPassword.isBlank()) {
+      JFrame warningFrame = new JFrame("Warning");
+      warningFrame.setLocation(350,350);
+      warningFrame.setLayout(new GridLayout(2, 1));
+      warningFrame.setSize(200, 100);
+      warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      warningFrame.setVisible(true);
+
+      JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
+      warningFrame.add(messageLabel);
+
+      JButton button = new JButton("확인");
+      button.addActionListener(event2 -> {
+        warningFrame.setVisible(false);
+      });
+      warningFrame.add(button);
+    }
+  }
+
+  private void checknickName() {
+    if (userNameField.getText().isBlank()) {
+      JFrame warningFrame = new JFrame("Warning");
+      warningFrame.setLocation(350,350);
+      warningFrame.setLayout(new GridLayout(2, 1));
+      warningFrame.setSize(200, 100);
+      warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      warningFrame.setVisible(true);
+
+      JLabel messageLabel = new JLabel("닉네임을 확인하세요");
+      warningFrame.add(messageLabel);
+
+      JButton button = new JButton("확인");
+      button.addActionListener(event2 -> {
+        warningFrame.setVisible(false);
+      });
+      warningFrame.add(button);
+    }
   }
 
   public void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
@@ -122,18 +172,5 @@ public class WriteGoalPanel extends JPanel {
     mainPanel.add(contentPanel);
     mainPanel.setVisible(false);
     mainPanel.setVisible(true);
-  }
-
-  public JButton initBackButton() {
-    JButton button = new JButton("뒤로가기");
-    button.addActionListener(event -> {
-      this.setVisible(false);
-      menuPanel.setVisible(true);
-      mainPanel.setVisible(false);
-      mainPanel.setVisible(true);
-    });
-    this.add(button);
-    button.setBounds(30,5,100,50);
-    return button;
   }
 }
