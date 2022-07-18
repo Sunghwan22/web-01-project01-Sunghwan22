@@ -19,12 +19,10 @@ public class PostLoader {
 
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
-
       Post post = parsePost(line);
 
       posts.add(post);
     }
-
     return posts;
   }
 
