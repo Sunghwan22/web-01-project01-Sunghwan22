@@ -3,20 +3,17 @@ package panels;
 import models.Post;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class WriteGoalPanel extends JPanel {
   private Post post;
   private String content;
   private String title;
-  private JLabel titleLabel;
-  private DetailPagePanel detailPagePanel;
-  private List<Post> posts;
+  private JPanel subPanel;
 
-  public WriteGoalPanel(JPanel contentPanel, JPanel mainPanel,
-                        List<Post> posts, JFrame frame) {
+
+  public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel subPanel) {
+    this.subPanel = subPanel;
     this.setLayout(null);
 
     JTextField titleField = new JTextField(20);
@@ -30,35 +27,26 @@ public class WriteGoalPanel extends JPanel {
 
     JButton registerButton = new JButton("등록");
     registerButton.addActionListener(event -> {
-
       title = titleField.getText();
       content = writeContent.getText();
 
       post = new Post(title, content, Post.PROGRESS);
       posts.add(post);
 
-      showMainPanel(contentPanel, mainPanel);
+      ContentPanel contentPanel = new ContentPanel(posts, post, subPanel);
 
-      titleLabel.addMouseListener(new MouseAdapter() {
-        public void mouseClicked(MouseEvent event) {
-          detailPagePanel = new DetailPagePanel(posts, post, contentPanel, mainPanel);
-
-          frame.add(detailPagePanel);
-          contentPanel.setVisible(false);
-          mainPanel.setVisible(false);
-          detailPagePanel.setVisible(true);
-        }
-      });
+      showMainPanel(contentPanel, menuPanel);
     });
     registerButton.setBounds(550, 605, 100, 50);
     this.add(registerButton);
   }
-
-  private void showMainPanel(JPanel contentPanel, JPanel mainPanel) {
+  //자신이 쓴 글을 검색할 수 있으면 좋겠는데
+  private void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
     this.setVisible(false);
-    mainPanel.setVisible(true);
-    titleLabel = new JLabel(post.title());
-    contentPanel.add(titleLabel);
-    contentPanel.setVisible(true);
+    menuPanel.setVisible(true);
+    subPanel.removeAll();
+    subPanel.add(contentPanel);
+    subPanel.setVisible(false);
+    subPanel.setVisible(true);
   }
 }

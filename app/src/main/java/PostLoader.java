@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class PostLoader {
 
-  public List<Post> loadpost() throws FileNotFoundException {
+  public List<Post> loadPost() throws FileNotFoundException {
     List<Post> posts = new ArrayList<>();
 
     File file = new File("Posts.csv");
