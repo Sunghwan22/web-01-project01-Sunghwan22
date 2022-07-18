@@ -12,6 +12,7 @@ class PostTest {
     assertEquals("안녕하세요",post.title());
     assertEquals("으아아아",post.content());
     assertEquals("PROGRESS",post.state());
+
   }
   @Test
   void changeState() {

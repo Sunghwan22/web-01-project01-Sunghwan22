@@ -13,6 +13,7 @@ public class Post {
     this.title = title;
     this.content = content;
     this.state = state;
+
   }
 
   public String title() {
@@ -40,6 +41,6 @@ public class Post {
   }
 
   public String toCsvRow() {
-    return title + ","  + content + "," + state;
+    return title + "," + content + "," + state ;
   }
 }

@@ -28,7 +28,7 @@ public class PostLoader {
 
   public void postWriter(List<Post> posts) throws IOException {
     FileWriter fileWriter = new FileWriter("Posts.csv");
-    for(Post post : posts) {
+    for (Post post : posts) {
       String line = post.toCsvRow();
       fileWriter.write(line + "\n");
     }
@@ -40,6 +40,7 @@ public class PostLoader {
     String title = words[0];
     String content = words[1];
     String state = words[2];
+
 
     return new Post(title, content, state);
   }

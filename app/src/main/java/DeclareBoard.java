@@ -1,4 +1,5 @@
 import models.Post;
+import models.UserInforMation;
 import panels.ContentPanel;
 import panels.DetailPageFrame;
 import panels.WriteGoalPanel;
@@ -14,15 +15,17 @@ import java.io.IOException;
 import java.util.List;
 
 public class DeclareBoard {
-  private JFrame frame;
-  private JPanel menuPanel;
+  private List<UserInforMation> userInformations;
+  private UserInformationLoader userInformationLoader;
   private List<Post> posts;
   private PostLoader postLoader;
+  private Post post;
+
+  private JFrame frame;
+  private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
   private ContentPanel contentPanel;
-  private Post post;
   private JPanel mainPanel;
-
 
   public static void main(String[] args) throws FileNotFoundException {
     DeclareBoard declareBoard = new DeclareBoard();
@@ -32,6 +35,9 @@ public class DeclareBoard {
   public DeclareBoard() throws FileNotFoundException {
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
+
+    userInformationLoader = new UserInformationLoader();
+    userInformations = userInformationLoader.loadInformation();
   }
 
   private void run() throws FileNotFoundException {
@@ -43,7 +49,8 @@ public class DeclareBoard {
 
     initContentPanel();
 
-    postWriter();
+    savePosts();
+    saveUserInformation();
 
     frame.setVisible(true);
   }
@@ -73,7 +80,7 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel,userInformations);
       showWritePanel(writeGoalPanel);
     });
     return button;
@@ -98,7 +105,7 @@ public class DeclareBoard {
   }
 
   private void initContentPanel() {
-    contentPanel = new ContentPanel(posts,post, mainPanel);
+    contentPanel = new ContentPanel(posts, post, mainPanel);
   }
 
   private void showWritePanel(WriteGoalPanel writeGoalPanel) {
@@ -108,13 +115,27 @@ public class DeclareBoard {
     writeGoalPanel.setVisible(true);
   }
 
-  public void postWriter() {
+  public void savePosts() {
     frame.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent event) {
         PostLoader postLoader = new PostLoader();
         try {
           postLoader.postWriter(posts);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
+  }
+
+  public void saveUserInformation() {
+    frame.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent event) {
+        UserInformationLoader userInformationLoader = new UserInformationLoader();
+        try {
+          userInformationLoader.userInformationWriter(userInformations);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
