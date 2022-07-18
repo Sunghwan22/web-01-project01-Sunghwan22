@@ -8,12 +8,13 @@ public class Post {
   private String title;
   private String content;
   private String state;
+  private String nickName;
 
-  public Post(String title, String content, String state) {
+  public Post(String title, String content, String state,String nickName) {
     this.title = title;
     this.content = content;
     this.state = state;
-
+    this.nickName = nickName;
   }
 
   public String title() {
@@ -26,6 +27,10 @@ public class Post {
 
   public String state() {
     return this.state;
+  }
+
+  public String nickName() {
+    return this.nickName;
   }
 
   public void delete() {
@@ -41,6 +46,6 @@ public class Post {
   }
 
   public String toCsvRow() {
-    return title + "," + content + "," + state ;
+    return title + "," + content + "," + nickName + "," + state;
   }
 }

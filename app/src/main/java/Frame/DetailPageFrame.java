@@ -1,8 +1,11 @@
-package panels;
+package Frame;
 
 import models.Post;
+import panels.ContentPanel;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class DetailPageFrame extends JFrame {
@@ -14,8 +17,9 @@ public class DetailPageFrame extends JFrame {
   private Post post;
   private List<Post> posts;
   private JPanel mainPanel;
+  private JPasswordField passwordField;
 
-  public DetailPageFrame(Post post, List<Post> posts, JPanel subPanel) {
+  public DetailPageFrame(Post post, List<Post> posts, JPanel subPanel, List<String> passwords) {
     this.post = post;
     this.posts = posts;
     this.mainPanel = subPanel;
@@ -23,6 +27,8 @@ public class DetailPageFrame extends JFrame {
     createDetailFrame();
 
     createPanel();
+
+    initPasswordField();
 
     initTitleField(post);
 
@@ -35,21 +41,33 @@ public class DetailPageFrame extends JFrame {
     initCompleteModifyButton(post, posts, subPanel);
   }
 
-  private void initContentArea(Post post) {
-    contentArea = new JTextArea();
-    contentArea.setBounds(50, 50, 600, 550);
-    contentArea.setText(post.content());
-    contentArea.setEditable(false);
-    contentArea.setLineWrap(true);
-    panel.add(contentArea);
+  private void initPasswordField() {
+    passwordField = new JPasswordField(20);
+    passwordField.setBounds(50 , 12,200, 35);
+    passwordField.setText("비밀번호");
+    passwordField.addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent event) {
+        passwordField.setText("");
+      }
+    });
+    panel.add(passwordField);
   }
 
   private void initTitleField(Post post) {
     titleField = new JTextField(20);
-    titleField.setBounds(50, 10, 600, 30);
+    titleField.setBounds(50, 55, 500, 35);
     titleField.setText(post.title());
     titleField.setEditable(false);
     panel.add(titleField);
+  }
+
+  private void initContentArea(Post post) {
+    contentArea = new JTextArea();
+    contentArea.setBounds(50, 100, 600, 500);
+    contentArea.setText(post.content());
+    contentArea.setEditable(false);
+    contentArea.setLineWrap(true);
+    panel.add(contentArea);
   }
 
   private void createPanel() {
