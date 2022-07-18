@@ -21,7 +21,7 @@ public class DeclareBoard {
   private WriteGoalPanel writeGoalPanel;
   private ContentPanel contentPanel;
   private Post post;
-  private JPanel subPanel;
+  private JPanel mainPanel;
 
 
   public static void main(String[] args) throws FileNotFoundException {
@@ -39,7 +39,7 @@ public class DeclareBoard {
 
     initMenuPanel();
 
-    initBackGroundPanel();
+    initmainPanel();
 
     initContentPanel();
 
@@ -57,9 +57,8 @@ public class DeclareBoard {
   private void initMenuPanel() {
     menuPanel = new JPanel();
     menuPanel.add(createWriteButton());
-    menuPanel.add(createMenuButton());
+    //menuPanel.add(createMenuButton());
     frame.add(menuPanel, BorderLayout.PAGE_START);
-    menuPanel.setBackground(Color.green);
   }
 
   private JButton createMenuButton() {
@@ -74,38 +73,38 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      writeGoalPanel = new WriteGoalPanel(menuPanel, posts,subPanel);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel);
       showWritePanel(writeGoalPanel);
     });
     return button;
   }
 
-  private void initBackGroundPanel() {
-    subPanel = new JPanel();
-    subPanel.removeAll();
+  private void initmainPanel() {
+    mainPanel = new JPanel();
+    mainPanel.removeAll();
     for (Post post : posts) {
       if (!post.state().equals("DELETION")) {
         JLabel titleLabel = new JLabel(post.title());
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,subPanel);
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel);
             detailPageFrame.setVisible(true);
           }
         });
-        subPanel.add(titleLabel);
+        mainPanel.add(titleLabel);
       }
     }
-    frame.add(subPanel);
+    frame.add(mainPanel);
   }
 
   private void initContentPanel() {
-    contentPanel = new ContentPanel(posts,post,subPanel);
+    contentPanel = new ContentPanel(posts,post, mainPanel);
   }
 
   private void showWritePanel(WriteGoalPanel writeGoalPanel) {
     frame.add(writeGoalPanel);
     menuPanel.setVisible(false);
-    subPanel.setVisible(false);
+    mainPanel.setVisible(false);
     writeGoalPanel.setVisible(true);
   }
 

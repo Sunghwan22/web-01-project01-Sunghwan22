@@ -10,12 +10,12 @@ import java.util.List;
 public class ContentPanel extends JPanel {
   private List<Post> posts;
   private Post post;
-  private JPanel subPanel;
+  private JPanel mainPanel;
 
-  public ContentPanel(List<Post> posts, Post post, JPanel subPanel) {
+  public ContentPanel(List<Post> posts, Post post, JPanel mainPanel) {
     this.posts = posts;
     this.post = post;
-    this.subPanel = subPanel;
+    this.mainPanel = mainPanel;
     showContentPanel();
   }
 
@@ -27,7 +27,7 @@ public class ContentPanel extends JPanel {
         JLabel titleLabel = new JLabel(post.title());
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,subPanel);
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel);
             detailPageFrame.setVisible(true);
           }
         });
