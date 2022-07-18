@@ -1,7 +1,7 @@
 package panels;
 
+import Frame.CancelFrame;
 import models.Post;
-import models.UserInforMation;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -9,34 +9,45 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class WriteGoalPanel extends JPanel {
+  private JPanel menuPanel;
   private JTextArea writeContent;
   private JTextField titleField;
   private Post post;
   private JPanel mainPanel;
-  private List<UserInforMation> userInformations;
+  private List<String> passwords;
+
   private JTextField userNameField;
   private JPasswordField passwordField;
-  private UserInforMation userInforMation;
+  private ContentPanel contentPanel;
 
+
+
+  // todo 취소하기 뒤로가기 버튼 추가
   public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel mainPanel,
-                        List<UserInforMation> userInformations) {
+                        List<String> passwords) {
+    this.menuPanel = menuPanel;
     this.mainPanel = mainPanel;
-    this.userInformations = userInformations;
+    this.passwords = passwords;
+
     this.setLayout(null);
 
     initUserNameField();
     initPassWordField();
 
+    initBackButton();
+
     initTitleField();
 
     initWriteContentArea();
+
+    initCancelButton();
 
     initRegisterButton(menuPanel, posts, mainPanel);
   }
 
   private void initUserNameField() {
     userNameField = new JTextField(10);
-    userNameField.setBounds(50, 12, 200, 35);
+    userNameField.setBounds(180, 12, 180, 35);
     userNameField.setText("닉네임을 입력 해주세요");
     userNameField.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent event) {
@@ -47,9 +58,9 @@ public class WriteGoalPanel extends JPanel {
   }
 
   private void initPassWordField() {
-    passwordField = new JPasswordField(10);
-    passwordField.setBounds(260, 12, 200, 35);
-    passwordField.setText("비밀번호를 입력해 주세요");
+    passwordField = new JPasswordField(20);
+    passwordField.setBounds(370 , 12, 180, 35);
+    passwordField.setText("비밀번호");
     passwordField.addMouseListener(new MouseAdapter() {
       public void mouseClicked(MouseEvent event) {
         passwordField.setText("");
@@ -81,13 +92,12 @@ public class WriteGoalPanel extends JPanel {
       String nickName = userNameField.getText();
       String passWord = String.valueOf(inputPassword);
 
-      userInforMation = new UserInforMation(nickName, passWord);
-      userInformations.add(userInforMation);
+      passwords.add(passWord);
 
-      post = new Post(title, content, Post.PROGRESS);
+      post = new Post(title, content, Post.PROGRESS, nickName);
       posts.add(post);
 
-      ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
+      contentPanel = new ContentPanel(posts, post, mainPanel);
 
       showMainPanel(contentPanel, menuPanel);
     });
@@ -95,12 +105,35 @@ public class WriteGoalPanel extends JPanel {
     this.add(registerButton);
   }
 
-  private void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
+  private void initCancelButton() {
+    JButton button = new JButton("취소");
+    button.addActionListener(event -> {
+      CancelFrame cancelFrame = new CancelFrame(this,mainPanel,menuPanel);
+      cancelFrame.setVisible(true);
+    });
+    this.add(button);
+    button.setBounds(440,605,100,50);
+  }
+
+  public void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
     this.setVisible(false);
     menuPanel.setVisible(true);
     mainPanel.removeAll();
     mainPanel.add(contentPanel);
     mainPanel.setVisible(false);
     mainPanel.setVisible(true);
+  }
+
+  public JButton initBackButton() {
+    JButton button = new JButton("뒤로가기");
+    button.addActionListener(event -> {
+      this.setVisible(false);
+      menuPanel.setVisible(true);
+      mainPanel.setVisible(false);
+      mainPanel.setVisible(true);
+    });
+    this.add(button);
+    button.setBounds(30,5,100,50);
+    return button;
   }
 }

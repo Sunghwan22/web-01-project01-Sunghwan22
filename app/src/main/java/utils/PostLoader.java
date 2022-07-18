@@ -1,3 +1,5 @@
+package utils;
+
 import models.Post;
 
 import java.io.File;
@@ -39,9 +41,10 @@ public class PostLoader {
     String[] words = line.split(",");
     String title = words[0];
     String content = words[1];
-    String state = words[2];
+    String nickName = words[2];
+    String state = words[3];
 
 
-    return new Post(title, content, state);
+    return new Post(title, content, state, nickName);
   }
 }

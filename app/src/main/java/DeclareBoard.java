@@ -1,8 +1,9 @@
 import models.Post;
-import models.UserInforMation;
 import panels.ContentPanel;
-import panels.DetailPageFrame;
+import Frame.DetailPageFrame;
 import panels.WriteGoalPanel;
+import utils.PasswordLoader;
+import utils.PostLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +16,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class DeclareBoard {
-  private List<UserInforMation> userInformations;
-  private UserInformationLoader userInformationLoader;
+  private PasswordLoader passwordLoader;
   private List<Post> posts;
   private PostLoader postLoader;
   private Post post;
-
+  private List<String> passwords;
   private JFrame frame;
   private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
@@ -36,8 +36,8 @@ public class DeclareBoard {
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
 
-    userInformationLoader = new UserInformationLoader();
-    userInformations = userInformationLoader.loadInformation();
+    passwordLoader = new PasswordLoader();
+    passwords = passwordLoader.loadPassword();
   }
 
   private void run() throws FileNotFoundException {
@@ -50,7 +50,7 @@ public class DeclareBoard {
     initContentPanel();
 
     savePosts();
-    saveUserInformation();
+    savePasswords();
 
     frame.setVisible(true);
   }
@@ -80,21 +80,21 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel,userInformations);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel,passwords);
       showWritePanel(writeGoalPanel);
     });
     return button;
   }
-
+    // 그런데 지금 글을 쓰면서 생각을 해보니까
   private void initmainPanel() {
     mainPanel = new JPanel();
     mainPanel.removeAll();
     for (Post post : posts) {
       if (!post.state().equals("DELETION")) {
-        JLabel titleLabel = new JLabel(post.title());
+        JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel);
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel,passwords);
             detailPageFrame.setVisible(true);
           }
         });
@@ -129,13 +129,13 @@ public class DeclareBoard {
     });
   }
 
-  public void saveUserInformation() {
+  public void savePasswords() {
     frame.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent event) {
-        UserInformationLoader userInformationLoader = new UserInformationLoader();
+        PasswordLoader passwordLoader = new PasswordLoader();
         try {
-          userInformationLoader.userInformationWriter(userInformations);
+          passwordLoader.passwordWriter(passwords);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
