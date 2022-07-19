@@ -17,7 +17,8 @@ public class WriteGoalPanel extends JPanel {
   private JTextField userNameField;
   private JPasswordField passwordField;
   private ContentPanel contentPanel;
-  private String inputPassword;
+  private JFrame warningFrame;
+  private String password;
 
 
   // todo 취소하기 뒤로가기 버튼 추가
@@ -45,7 +46,7 @@ public class WriteGoalPanel extends JPanel {
     JLabel label = new JLabel("닉네임");
     userNameField = new JTextField(10);
     userNameField.setBounds(240, 12, 150, 35);
-    label.setBounds(180, 12, 100, 35);
+    label.setBounds(195, 12, 100, 35);
     this.add(userNameField);
     this.add(label);
   }
@@ -53,12 +54,11 @@ public class WriteGoalPanel extends JPanel {
   private void initPassWordField() {
     JLabel label = new JLabel("비밀번호");
     passwordField = new JPasswordField();
+    passwordField.setEditable(true);
     passwordField.setBounds(500, 12, 150, 35);
-    label.setBounds(440, 12, 150, 35);
+    label.setBounds(445, 12, 150, 35);
     this.add(passwordField);
     this.add(label);
-    char[] password = passwordField.getPassword();
-    inputPassword = String.valueOf(password);
   }
 
   public JButton initBackButton() {
@@ -70,7 +70,7 @@ public class WriteGoalPanel extends JPanel {
       mainPanel.setVisible(true);
     });
     this.add(button);
-    button.setBounds(30, 5, 100, 50);
+    button.setBounds(50, 5, 100, 50);
     return button;
   }
 
@@ -90,15 +90,16 @@ public class WriteGoalPanel extends JPanel {
   private void initRegisterButton(JPanel menuPanel, List<Post> posts, JPanel mainPanel) {
     JButton registerButton = new JButton("등록");
     registerButton.addActionListener(event -> {
-      if (!userNameField.getText().isBlank() || !inputPassword.isBlank()) {
+      char[] inputPassword = passwordField.getPassword();
+      password = String.valueOf(inputPassword);
+
+      if (!userNameField.getText().isBlank() && !password.isBlank() &&
+          !titleField.getText().isBlank() && !writeContent.getText().isBlank()) {
         String title = titleField.getText();
         String content = writeContent.getText();
-
-
         String nickName = userNameField.getText();
-        String passWord = inputPassword;
 
-        post = new Post(title, content, Post.PROGRESS, nickName, passWord);
+        post = new Post(title, content, Post.PROGRESS, nickName, password);
         posts.add(post);
 
         contentPanel = new ContentPanel(posts, post, mainPanel);
@@ -122,8 +123,9 @@ public class WriteGoalPanel extends JPanel {
   }
 
   private void checkInformation() {
-    if (userNameField.getText().isBlank() || inputPassword.isBlank()) {
-      JFrame warningFrame = new JFrame("Warning");
+    if (userNameField.getText().isBlank() || password.isBlank() ||
+        titleField.getText().isBlank() || writeContent.getText().isBlank()) {
+      warningFrame = new JFrame("Warning");
       warningFrame.setLocation(350, 350);
       warningFrame.setLayout(new GridLayout(2, 1));
       warningFrame.setSize(200, 100);
