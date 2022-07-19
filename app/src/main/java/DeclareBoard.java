@@ -1,7 +1,9 @@
+import models.Comment;
 import models.Post;
 import panels.ContentPanel;
 import Frame.DetailPageFrame;
 import panels.WriteGoalPanel;
+import utils.CommentLoader;
 import utils.PostLoader;
 
 import javax.swing.*;
@@ -15,14 +17,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class DeclareBoard {
+  private List<Comment> comments;
   private List<Post> posts;
+
+  private CommentLoader commentLoader;
   private PostLoader postLoader;
+
   private Post post;
+
   private JFrame frame;
   private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
   private ContentPanel contentPanel;
   private JPanel mainPanel;
+  private Comment comment;
 
   public static void main(String[] args) throws FileNotFoundException {
     DeclareBoard declareBoard = new DeclareBoard();
@@ -32,6 +40,9 @@ public class DeclareBoard {
   public DeclareBoard() throws FileNotFoundException {
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
+
+    commentLoader = new CommentLoader();
+    comments = commentLoader.loadComment();
   }
 
   private void run() throws FileNotFoundException {
@@ -78,17 +89,19 @@ public class DeclareBoard {
     });
     return button;
   }
-    // 그런데 지금 글을 쓰면서 생각을 해보니까
+
+  // 그런데 지금 글을 쓰면서 생각을 해보니까
   private void initmainPanel() {
     mainPanel = new JPanel();
-    mainPanel.setLayout(new GridLayout(0,1));
+    mainPanel.setLayout(new GridLayout(0, 1));
     mainPanel.removeAll();
     for (Post post : posts) {
       if (!post.state().equals("DELETION")) {
         JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts, mainPanel);
+            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
+                mainPanel, comments);
             detailPageFrame.setVisible(true);
           }
         });
