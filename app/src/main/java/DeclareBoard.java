@@ -18,7 +18,6 @@ public class DeclareBoard {
   private List<Post> posts;
   private PostLoader postLoader;
   private Post post;
-  private List<String> passwords;
   private JFrame frame;
   private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
@@ -74,7 +73,7 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("글 작성하기");
     button.addActionListener(event -> {
-      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel,passwords);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel);
       showWritePanel(writeGoalPanel);
     });
     return button;

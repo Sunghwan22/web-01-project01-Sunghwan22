@@ -12,8 +12,6 @@ public class ContentPanel extends JPanel {
   private List<Post> posts;
   private Post post;
   private JPanel mainPanel;
-  private String nickName;
-  private List<String> passwords;
 
   public ContentPanel(List<Post> posts, Post post, JPanel mainPanel) {
     this.posts = posts;
