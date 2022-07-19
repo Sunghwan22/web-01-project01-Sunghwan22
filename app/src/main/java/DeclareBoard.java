@@ -71,7 +71,7 @@ public class DeclareBoard {
   }
 
   private JButton createWriteButton() {
-    JButton button = new JButton("글 작성하기");
+    JButton button = new JButton("목표 작성하기");
     button.addActionListener(event -> {
       writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel);
       showWritePanel(writeGoalPanel);
@@ -81,6 +81,7 @@ public class DeclareBoard {
     // 그런데 지금 글을 쓰면서 생각을 해보니까
   private void initmainPanel() {
     mainPanel = new JPanel();
+    mainPanel.setLayout(new GridLayout(0,1));
     mainPanel.removeAll();
     for (Post post : posts) {
       if (!post.state().equals("DELETION")) {
