@@ -44,7 +44,7 @@ public class PostLoader {
     String nickName = words[2];
     String passWord = words[3];
     String state = words[4];
-
+    //
     return new Post(title, content, state, nickName, passWord);
   }
 }
