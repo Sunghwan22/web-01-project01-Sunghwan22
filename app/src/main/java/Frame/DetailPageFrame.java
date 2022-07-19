@@ -19,10 +19,10 @@ public class DetailPageFrame extends JFrame {
   private JPasswordField passwordField;
   private String inputPassword;
 
-  public DetailPageFrame(Post post, List<Post> posts, JPanel subPanel) {
+  public DetailPageFrame(Post post, List<Post> posts, JPanel mainPanel) {
     this.post = post;
     this.posts = posts;
-    this.mainPanel = subPanel;
+    this.mainPanel = mainPanel;
 
     createDetailFrame();
 
@@ -34,11 +34,11 @@ public class DetailPageFrame extends JFrame {
 
     initContentArea(post);
 
-    initDeleteButton(post, posts, subPanel);
+    initDeleteButton(post, posts, mainPanel);
 
     initmodifyButton();
 
-    initCompleteModifyButton(post, posts, subPanel);
+    initCompleteModifyButton(post, posts, mainPanel);
   }
 
   private void initPasswordField() {
@@ -83,14 +83,16 @@ public class DetailPageFrame extends JFrame {
   public void initDeleteButton(Post post, List<Post> posts, JPanel mainPanel) {
     JButton deleteButton = new JButton("삭제하기");
     deleteButton.addActionListener(event -> {
-      checkPassword(post);
+      if (inputPassword.equals(post.passWord())) {
+        post.delete();
 
-      post.delete();
+        ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
 
-      ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
+        showMainPanel(contentPanel);
+        this.setVisible(false);
+      }
 
-      showMainPanel(contentPanel);
-      this.setVisible(false);
+      checkPassword();
     });
     panel.add(deleteButton);
     deleteButton.setBounds(550, 605, 100, 50);
@@ -99,10 +101,12 @@ public class DetailPageFrame extends JFrame {
   private void initmodifyButton() {
     JButton modifyButton = new JButton("수정하기");
     modifyButton.addActionListener(event -> {
-      checkPassword(post);
+      if (inputPassword.equals(post.passWord())) {
 
-      titleField.setEditable(true);
-      contentArea.setEditable(true);
+        titleField.setEditable(true);
+        contentArea.setEditable(true);
+      }
+      checkPassword();
     });
     panel.add(modifyButton);
     modifyButton.setBounds(50, 605, 100, 50);
@@ -111,14 +115,15 @@ public class DetailPageFrame extends JFrame {
   private void initCompleteModifyButton(Post post, List<Post> posts, JPanel mainPanel) {
     JButton modifyCompleteButton = new JButton("수정완료");
     modifyCompleteButton.addActionListener(event -> {
-      checkPassword(post);
+      if (inputPassword.equals(post.passWord())) {
+        post.modifyTitle(titleField.getText());
+        post.modifyContent(contentArea.getText());
 
-      post.modifyTitle(titleField.getText());
-      post.modifyContent(contentArea.getText());
-
-      ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
-      showMainPanel(contentPanel);
-      this.setVisible(false);
+        ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
+        showMainPanel(contentPanel);
+        this.setVisible(false);
+      }
+      checkPassword();
     });
     panel.add(modifyCompleteButton);
     modifyCompleteButton.setBounds(155, 605, 100, 50);
@@ -131,26 +136,22 @@ public class DetailPageFrame extends JFrame {
     mainPanel.setVisible(true);
   }
 
-  private void checkPassword(Post post) {
+  public void checkPassword() {
     if (!inputPassword.equals(post.passWord()) || inputPassword.isBlank()) {
-      informateMessage();
+      JFrame warningFrame = new JFrame("Warning");
+      warningFrame.setLayout(new GridLayout(2, 1));
+      warningFrame.setSize(200, 100);
+      warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      warningFrame.setVisible(true);
+
+      JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
+      warningFrame.add(messageLabel);
+
+      JButton button = new JButton("확인");
+      button.addActionListener(event2 -> {
+        warningFrame.setVisible(false);
+      });
+      warningFrame.add(button);
     }
-  }
-
-  public void informateMessage() {
-    JFrame warningFrame = new JFrame("Warning");
-    warningFrame.setLayout(new GridLayout(2, 1));
-    warningFrame.setSize(200, 100);
-    warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    warningFrame.setVisible(true);
-
-    JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
-    warningFrame.add(messageLabel);
-
-    JButton button = new JButton("확인");
-    button.addActionListener(event2 -> {
-      warningFrame.setVisible(false);
-    });
-    warningFrame.add(button);
   }
 }

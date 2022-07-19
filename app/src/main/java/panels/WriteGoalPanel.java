@@ -13,7 +13,6 @@ public class WriteGoalPanel extends JPanel {
   private JTextField titleField;
   private Post post;
   private JPanel mainPanel;
-  private List<String> passwords;
 
   private JTextField userNameField;
   private JPasswordField passwordField;
@@ -22,11 +21,9 @@ public class WriteGoalPanel extends JPanel {
 
 
   // todo 취소하기 뒤로가기 버튼 추가
-  public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel mainPanel,
-                        List<String> passwords) {
+  public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel mainPanel) {
     this.menuPanel = menuPanel;
     this.mainPanel = mainPanel;
-    this.passwords = passwords;
 
     this.setLayout(null);
 
@@ -93,23 +90,22 @@ public class WriteGoalPanel extends JPanel {
   private void initRegisterButton(JPanel menuPanel, List<Post> posts, JPanel mainPanel) {
     JButton registerButton = new JButton("등록");
     registerButton.addActionListener(event -> {
-      checknickName();
-      checkpassWord();
-      String title = titleField.getText();
-      String content = writeContent.getText();
+      if (!userNameField.getText().isBlank() || !inputPassword.isBlank()) {
+        String title = titleField.getText();
+        String content = writeContent.getText();
 
-      char[] inputPassword = passwordField.getPassword();
-      String nickName = userNameField.getText();
-      String passWord = String.valueOf(inputPassword);
 
-      passwords.add(passWord);
+        String nickName = userNameField.getText();
+        String passWord = inputPassword;
 
-      post = new Post(title, content, Post.PROGRESS, nickName, passWord);
-      posts.add(post);
+        post = new Post(title, content, Post.PROGRESS, nickName, passWord);
+        posts.add(post);
 
-      contentPanel = new ContentPanel(posts, post, mainPanel);
+        contentPanel = new ContentPanel(posts, post, mainPanel);
 
-      showMainPanel(contentPanel, menuPanel);
+        showMainPanel(contentPanel, menuPanel);
+      }
+      checkInformation();
     });
     registerButton.setBounds(550, 605, 100, 50);
     this.add(registerButton);
@@ -125,42 +121,23 @@ public class WriteGoalPanel extends JPanel {
     button.setBounds(440, 605, 100, 50);
   }
 
-  private void checkpassWord() {
-    if (inputPassword.isBlank()) {
+  private void checkInformation() {
+    if (userNameField.getText().isBlank() || inputPassword.isBlank()) {
       JFrame warningFrame = new JFrame("Warning");
-      warningFrame.setLocation(350,350);
+      warningFrame.setLocation(350, 350);
       warningFrame.setLayout(new GridLayout(2, 1));
       warningFrame.setSize(200, 100);
       warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       warningFrame.setVisible(true);
 
-      JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
+      JLabel messageLabel = new JLabel("닉네임 및 비밀번호를 확인하세요");
       warningFrame.add(messageLabel);
 
       JButton button = new JButton("확인");
       button.addActionListener(event2 -> {
         warningFrame.setVisible(false);
       });
-      warningFrame.add(button);
-    }
-  }
 
-  private void checknickName() {
-    if (userNameField.getText().isBlank()) {
-      JFrame warningFrame = new JFrame("Warning");
-      warningFrame.setLocation(350,350);
-      warningFrame.setLayout(new GridLayout(2, 1));
-      warningFrame.setSize(200, 100);
-      warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      warningFrame.setVisible(true);
-
-      JLabel messageLabel = new JLabel("닉네임을 확인하세요");
-      warningFrame.add(messageLabel);
-
-      JButton button = new JButton("확인");
-      button.addActionListener(event2 -> {
-        warningFrame.setVisible(false);
-      });
       warningFrame.add(button);
     }
   }
