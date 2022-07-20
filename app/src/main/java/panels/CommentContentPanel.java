@@ -14,22 +14,36 @@ public class CommentContentPanel extends JPanel {
     this.comment = comment;
     this.removeAll();
 
-    for(Comment comment1 : comments){
-      JPanel panel = new JPanel();
-      panel.add(createNickNameLabel());
-      panel.add(createCommentArea());
-      panel.add(createDeleteButton());
+    initCommentPanel(comments);
+  }
 
-      this.add(panel);
+  private void initCommentPanel(List<Comment> comments) {
+    for (Comment comment : comments) {
+      if (comment.state().equals(Comment.DISPLAY)) {
+        JPanel panel = new JPanel();
+        panel.add(createNickNameLabel(comment));
+        panel.add(createCommentArea(comment));
+        panel.add(createDeleteButton(comment));
+
+        this.add(panel);
+      }
     }
   }
 
-  private JButton createDeleteButton() {
+  private JTextArea createCommentArea(Comment comment) {
+    return new JTextArea(comment.nickName());
+  }
+
+  private JLabel createNickNameLabel(Comment comment) {
+    return new JLabel(comment.nickName());
+  }
+
+  private JButton createDeleteButton(Comment comment) {
     JButton deleteButton = new JButton("X");
     deleteButton.addActionListener(event -> {
       JFrame frame = new JFrame("비밀번호 확인");
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      frame.setSize(200,100);
+      frame.setSize(200, 100);
 
       JPanel panel = new JPanel();
       frame.add(panel);
@@ -41,7 +55,7 @@ public class CommentContentPanel extends JPanel {
       frame.setVisible(true);
       JButton button1 = new JButton("확인");
       button1.addActionListener(event1 -> {
-        if(password.equals(comment.password())) {
+        if (password.equals(comment.password())) {
           comment.delete();
           frame.setVisible(false);
         }
@@ -50,13 +64,5 @@ public class CommentContentPanel extends JPanel {
 
     });
     return deleteButton;
-  }
-
-  private JTextArea createCommentArea() {
-    return new JTextArea(comment.content());
-  }
-
-  private JLabel createNickNameLabel() {
-    return new JLabel(comment.nickName());
   }
 }
