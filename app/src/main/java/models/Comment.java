@@ -16,11 +16,27 @@ public class Comment {
     this.state = state;
   }
 
+  public String nickName() {
+    return this.nickName;
+  }
+
+  public String password() {
+    return this.password;
+  }
+
+  public String state() {
+    return this.state;
+  }
+
   public void delete() {
     this.state = DELETION;
   }
 
   public String toCsvRow() {
     return nickName + "," + password + "," + content + "," + state;
+  }
+
+  public String content() {
+    return this.content;
   }
 }

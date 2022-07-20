@@ -14,7 +14,7 @@ public class CommentLoader {
   public List<Comment> loadComment() throws FileNotFoundException {
     List<Comment> comments = new ArrayList<>();
 
-    File file = new File("Comment.csv");
+    File file = new File("Comments.csv");
 
     Scanner scanner = new Scanner(file);
 

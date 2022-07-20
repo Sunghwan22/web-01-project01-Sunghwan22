@@ -14,6 +14,7 @@ public class ContentPanel extends JPanel {
   private Post post;
   private JPanel mainPanel;
   private List<Comment> comments;
+  private Comment comment;
 
   public ContentPanel(List<Post> posts, Post post, JPanel mainPanel) {
     this.posts = posts;
@@ -32,7 +33,7 @@ public class ContentPanel extends JPanel {
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
             DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
-                mainPanel, comments);
+                mainPanel, comments, comment);
             detailPageFrame.setVisible(true);
           }
         });

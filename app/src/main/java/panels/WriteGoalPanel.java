@@ -2,6 +2,7 @@ package panels;
 
 import Frame.CancelFrame;
 import models.Post;
+import models.RegistraionNumber;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,7 +100,7 @@ public class WriteGoalPanel extends JPanel {
         String content = writeContent.getText();
         String nickName = userNameField.getText();
 
-        post = new Post(title, content, Post.PROGRESS, nickName, password);
+        post = new Post(title, content, Post.PROGRESS, nickName, password, RegistraionNumber.RegistraionNumber);
         posts.add(post);
 
         contentPanel = new ContentPanel(posts, post, mainPanel);
@@ -147,6 +148,7 @@ public class WriteGoalPanel extends JPanel {
   public void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
     this.setVisible(false);
     menuPanel.setVisible(true);
+
     mainPanel.removeAll();
     mainPanel.add(contentPanel);
     mainPanel.setVisible(false);
