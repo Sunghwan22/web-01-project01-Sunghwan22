@@ -58,7 +58,6 @@ public class CommentContentPanel extends JPanel {
         if (password.equals(comment.password())) {
           comment.delete();
           frame.setVisible(false);
-
         }
       });
       panel.add(button1);
