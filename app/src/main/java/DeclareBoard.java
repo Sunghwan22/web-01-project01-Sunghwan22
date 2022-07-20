@@ -43,7 +43,7 @@ public class DeclareBoard {
     posts = postLoader.loadPost();
     RegistraionNumber.setRegistraionNumber(postLoader.loadRegistraionNumber());
 
-    commentLoader = new CommentLoader();
+    commentLoader = new CommentLoader(post);
     comments = commentLoader.loadComment();
   }
 

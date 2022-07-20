@@ -44,6 +44,10 @@ public class Post {
     return this.passWord;
   }
 
+  public int registrationNumber() {
+    return this.registrationNumber;
+  }
+
   public void delete() {
     this.state = DELETION;
   }

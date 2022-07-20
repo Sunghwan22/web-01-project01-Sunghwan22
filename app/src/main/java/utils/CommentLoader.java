@@ -1,6 +1,7 @@
 package utils;
 
 import models.Comment;
+import models.Post;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CommentLoader {
+  private Post post;
+
+  public CommentLoader(Post post) {
+    this.post = post;
+  }
+
   public List<Comment> loadComment() throws FileNotFoundException {
     List<Comment> comments = new ArrayList<>();
 
@@ -41,7 +48,8 @@ public class CommentLoader {
     String password = words[1];
     String content = words[2];
     String state = words[3];
-    //todo 고유 번호 값을 받으면 인트형에서 스트링으로 바꿔줘야함
-    return new Comment(nickname, password, content, state);
+    int registraionNumber = Integer.parseInt(words[4]);
+
+    return new Comment(nickname, password, content, state,registraionNumber);
   }
 }
