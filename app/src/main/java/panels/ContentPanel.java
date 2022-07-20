@@ -33,7 +33,7 @@ public class ContentPanel extends JPanel {
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
             DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
-                mainPanel, comments, comment);
+                mainPanel, comments,comment);
             detailPageFrame.setVisible(true);
           }
         });
