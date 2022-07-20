@@ -39,8 +39,10 @@ public class DeclareBoard {
   }
 
   public DeclareBoard() throws FileNotFoundException {
+
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
+
     RegistraionNumber.setRegistraionNumber(postLoader.loadRegistraionNumber());
 
     commentLoader = new CommentLoader();
@@ -138,5 +140,9 @@ public class DeclareBoard {
         }
       }
     });
+    for(Comment comment1 : comments){
+      System.out.println(comment1);
+    }
+
   }
 }

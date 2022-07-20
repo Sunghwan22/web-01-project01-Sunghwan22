@@ -103,7 +103,7 @@ public class WriteCommentPanel extends JPanel {
     content =  commentArea.getText();
 
     showCommentPanel.removeAll();
-
+    //여기까지 코멘트 넘버가 전달이 되야 한다
     comment = new Comment(nickName,password,content,Comment.DISPLAY);
     comments.add(comment);
 

@@ -49,6 +49,10 @@ public class DetailPageFrame extends JFrame {
     initCompleteModifyButton(post, posts, mainPanel);
 
     createCommentButton();
+
+    for(Comment comment1 : comments){
+      System.out.println(comment1);
+    }
   }
 
   private void createCommentButton() {
