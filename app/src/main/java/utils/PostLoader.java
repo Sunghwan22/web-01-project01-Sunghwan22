@@ -1,6 +1,7 @@
 package utils;
 
 import models.Post;
+import models.RegistraionNumber;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,7 +45,26 @@ public class PostLoader {
     String nickName = words[2];
     String passWord = words[3];
     String state = words[4];
+    int registrationNumber = Integer.parseInt(words[5]);
     //
-    return new Post(title, content, state, nickName, passWord);
+    return new Post(title, content, state, nickName, passWord, registrationNumber);
+  }
+
+  public int loadRegistraionNumber() throws FileNotFoundException {
+    File file = new File("RegistraionNumber.csv");
+
+    Scanner scanner = new Scanner(file);
+
+    return scanner.nextInt();
+  }
+
+  public void registraionNumberWriter() throws IOException {
+    FileWriter fileWriter = new FileWriter("RegistraionNumber.csv");
+
+    String registraionNumber = Integer.toString(RegistraionNumber.registraionNumber());
+
+    fileWriter.write(registraionNumber + "\n");
+
+    fileWriter.close();
   }
 }

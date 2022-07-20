@@ -7,7 +7,6 @@ import java.awt.*;
 import java.util.List;
 
 public class CommentPanel extends JPanel {
-
   private JPanel showCommentPanel;
   private JPanel detailPagePanel;
   private List<Comment> comments;
@@ -25,6 +24,10 @@ public class CommentPanel extends JPanel {
     this.add(menuPanel, BorderLayout.PAGE_START);
     menuPanel.setBackground(Color.blue);
 
+    showCommentPanel = new JPanel();
+    this.add(showCommentPanel, BorderLayout.CENTER);
+    showCommentPanel.setBackground(Color.green);
+
     JButton goBackbutton = new JButton("뒤로가기");
     goBackbutton.addActionListener(event -> {
       this.setVisible(false);
@@ -40,10 +43,27 @@ public class CommentPanel extends JPanel {
     });
     menuPanel.add(writeCommentButton);
 
+    for (Comment comment1 : comments) {
+      if (comment.state().equals(Comment.DISPLAY)) {
+        JPanel commentPanel = new JPanel();
+        commentPanel.add(createNickNameLabel());
+        commentPanel.add(createCommentArea());
+        commentPanel.add(createDeleteButton());
 
-    //여기 showCommentPanel에서 해주면 되겠다.
-    showCommentPanel = new JPanel();
-    this.add(showCommentPanel, BorderLayout.CENTER);
-    showCommentPanel.setBackground(Color.green);
+        showCommentPanel.add(commentPanel);
+      }
+    }
+  }
+
+  private JLabel createNickNameLabel() {
+    return new JLabel(comment.nickName());
+  }
+
+  private JTextArea createCommentArea() {
+    return new JTextArea(comment.content());
+  }
+
+  private JButton createDeleteButton() {
+    return new JButton("X");
   }
 }

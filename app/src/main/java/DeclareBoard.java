@@ -1,5 +1,6 @@
 import models.Comment;
 import models.Post;
+import models.RegistraionNumber;
 import panels.ContentPanel;
 import Frame.DetailPageFrame;
 import panels.WriteGoalPanel;
@@ -24,13 +25,13 @@ public class DeclareBoard {
   private PostLoader postLoader;
 
   private Post post;
+  private Comment comment;
 
   private JFrame frame;
   private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
   private ContentPanel contentPanel;
   private JPanel mainPanel;
-  private Comment comment;
 
   public static void main(String[] args) throws FileNotFoundException {
     DeclareBoard declareBoard = new DeclareBoard();
@@ -40,6 +41,7 @@ public class DeclareBoard {
   public DeclareBoard() throws FileNotFoundException {
     postLoader = new PostLoader();
     posts = postLoader.loadPost();
+    RegistraionNumber.setRegistraionNumber(postLoader.loadRegistraionNumber());
 
     commentLoader = new CommentLoader();
     comments = commentLoader.loadComment();
@@ -91,6 +93,7 @@ public class DeclareBoard {
   }
 
   // 그런데 지금 글을 쓰면서 생각을 해보니까
+
   private void initmainPanel() {
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayout(0, 1));
@@ -101,7 +104,7 @@ public class DeclareBoard {
         titleLabel.addMouseListener(new MouseAdapter() {
           public void mouseClicked(MouseEvent event) {
             DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
-                mainPanel, comments);
+                mainPanel, comments, comment);
             detailPageFrame.setVisible(true);
           }
         });
@@ -126,9 +129,10 @@ public class DeclareBoard {
     frame.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent event) {
-        PostLoader postLoader = new PostLoader();
         try {
           postLoader.postWriter(posts);
+          commentLoader.commentWriter(comments);
+          postLoader.registraionNumberWriter();
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

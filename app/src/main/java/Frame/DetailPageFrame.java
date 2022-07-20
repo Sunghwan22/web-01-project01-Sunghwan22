@@ -15,17 +15,17 @@ public class DetailPageFrame extends JFrame {
   private JTextArea contentArea;
   private JPanel detailPagePanel;
 
-  private Post post;
   private List<Post> posts;
-  private JPanel mainPanel;
   private List<Comment> comments;
+  private JPanel mainPanel;
+  private Post post;
   private Comment comment;
   private JPasswordField passwordField;
   private String inputPassword;
 
 
   public DetailPageFrame(Post post, List<Post> posts, JPanel mainPanel,
-                         List<Comment> comments) {
+                         List<Comment> comments, Comment comment) {
     this.post = post;
     this.posts = posts;
     this.mainPanel = mainPanel;
@@ -54,8 +54,9 @@ public class DetailPageFrame extends JFrame {
   private void createCommentButton() {
     JButton button = new JButton("댓글보기");
     button.addActionListener(event -> {
-      detailPagePanel.setVisible(false);    // 지금 뒤로가기 할 때마다 안보이는게 댓글보기 버튼을 누르면 계속해서 새로운 패널을 보여주기 때문에 안되는 것 같음 뉴를 해주지 말고 메소드를 불러오는게 방법이겠다.
+      detailPagePanel.setVisible(false);
       CommentPanel commentPanel = new CommentPanel(detailPagePanel,comments,comment);
+      this.add(commentPanel);
     });
     detailPagePanel.add(button);
     button.setBounds(550, 12, 100, 50);
