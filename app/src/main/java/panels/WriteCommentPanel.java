@@ -1,6 +1,7 @@
 package panels;
 
 import models.Comment;
+import models.Post;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ public class WriteCommentPanel extends JPanel {
   private Comment comment;
   private JPanel showCommentPanel;
   private List<Comment> comments;
+  private Post post;
   private String content;
   private String nickName;
   private String password;
@@ -19,9 +21,11 @@ public class WriteCommentPanel extends JPanel {
   private JTextField nickNameField;
   private JPanel commentPanel;
 
-  public WriteCommentPanel(JPanel showCommentPanel, List<Comment> comments) {
+  public WriteCommentPanel(JPanel showCommentPanel, List<Comment> comments,
+                           Post post) {
     this.showCommentPanel = showCommentPanel;
     this.comments = comments;
+    this.post = post;
     this.setLayout(null);
 
     guideNickname();
@@ -104,11 +108,12 @@ public class WriteCommentPanel extends JPanel {
 
     showCommentPanel.removeAll();
 
-    comment = new Comment(nickName,password,content,Comment.DISPLAY);
+    comment = new Comment(nickName,password,content,Comment.DISPLAY,
+        post.registrationNumber());
     comments.add(comment);
 
     CommentContentPanel commentContentPanel = new CommentContentPanel(comments,
-        comment);
+        comment,showCommentPanel,post);
     showCommentPanel.add(commentContentPanel);
 
     this.setVisible(false);

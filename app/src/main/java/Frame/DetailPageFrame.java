@@ -55,7 +55,8 @@ public class DetailPageFrame extends JFrame {
     JButton button = new JButton("댓글보기");
     button.addActionListener(event -> {
       detailPagePanel.setVisible(false);
-      CommentPanel commentPanel = new CommentPanel(detailPagePanel,comments,comment);
+      CommentPanel commentPanel = new CommentPanel(detailPagePanel
+          ,comments,comment,post);
       this.add(commentPanel);
     });
     detailPagePanel.add(button);
