@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class PostsPanel extends JPanel {
@@ -24,29 +26,27 @@ public class PostsPanel extends JPanel {
     this.comment = comment;
     this.comments = comments;
     this.mainPanel = mainPanel;
-    this.setLayout(new GridLayout(0,1));
+    this.setLayout(new GridLayout(0, 1));
     showContentPanel();
   }
 
   public void showContentPanel() {
     this.removeAll();
 
+    Comparator<Post> views = new Comparator<>() {
+      @Override
+      public int compare(Post o1, Post o2) {
+        return o2.registrationNumber() - o1.registrationNumber();
+      }
+    };
+
+    Collections.sort(posts,views);
+
     for (Post post : posts) {
-      if (post.state().equals("PROGRESS")) {
-        JPanel containerPanel = new JPanel();
-        this.add(containerPanel);
-
-        JLabel titleLabel = new JLabel("작성자: " + post.nickName() + post.title());
-
-        titleLabel.addMouseListener(new MouseAdapter() {
-          @Override
-          public void mouseClicked(MouseEvent event) {
-            PostDetailPageFrame postDetailPageFrame = new PostDetailPageFrame(post, posts,
-                mainPanel, comments,comment);
-            postDetailPageFrame.setVisible(true);
-          }
-        });
-        containerPanel.add(titleLabel);
+      if (!post.state().equals(Post.DELETION)) {
+        PostPanel postPanel = new PostPanel(posts, post, comment, comments,
+            mainPanel);
+        this.add(postPanel);
       }
     }
   }

@@ -22,7 +22,9 @@ public class PostPanel extends JPanel {
     JPanel containerPanel = new JPanel();
     panel.add(containerPanel);
 
-    JLabel titleLabel = new JLabel("작성자: " + post.nickName() + post.title());
+    JLabel titleLabel = new JLabel("등록번호      " + post.registrationNumber() +
+        "작성자:    " + post.nickName() + "제목       " + post.title() +
+        "조회 수    " + post.views() + "추천  " + post.like());
 
     titleLabel.addMouseListener(new MouseAdapter() {
       @Override
@@ -30,6 +32,7 @@ public class PostPanel extends JPanel {
         PostDetailPageFrame postDetailPageFrame = new PostDetailPageFrame(post, posts,
             mainPanel, comments, comment);
         postDetailPageFrame.setVisible(true);
+        post.plusViews();
       }
     });
     containerPanel.add(titleLabel);
