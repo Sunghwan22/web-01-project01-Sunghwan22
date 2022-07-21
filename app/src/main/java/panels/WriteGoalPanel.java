@@ -1,6 +1,7 @@
 package panels;
 
 import Frame.CancelFrame;
+import models.Comment;
 import models.Post;
 import models.RegistraionNumber;
 
@@ -14,18 +15,23 @@ public class WriteGoalPanel extends JPanel {
   private JTextField titleField;
   private Post post;
   private JPanel mainPanel;
+  private List<Comment> comments;
+  private Comment comment;
 
   private JTextField userNameField;
   private JPasswordField passwordField;
-  private ContentPanel contentPanel;
+  private PostsPanel postsPanel;
   private JFrame warningFrame;
   private String password;
 
 
   // todo 취소하기 뒤로가기 버튼 추가
-  public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel mainPanel) {
+  public WriteGoalPanel(JPanel menuPanel, List<Post> posts, JPanel mainPanel
+      , List<Comment> comments, Comment comment) {
     this.menuPanel = menuPanel;
     this.mainPanel = mainPanel;
+    this.comments = comments;
+    this.comment = comment;
 
     this.setLayout(null);
 
@@ -100,12 +106,13 @@ public class WriteGoalPanel extends JPanel {
         String content = writeContent.getText();
         String nickName = userNameField.getText();
 
-        post = new Post(title, content, Post.PROGRESS, nickName, password, RegistraionNumber.RegistraionNumber);
+        post = new Post(title, content, Post.PROGRESS, nickName, password,
+            RegistraionNumber.RegistraionNumber);
         posts.add(post);
 
-        contentPanel = new ContentPanel(posts, post, mainPanel);
+        postsPanel = new PostsPanel(posts, post, comment,comments,mainPanel);
 
-        showMainPanel(contentPanel, menuPanel);
+        showMainPanel(postsPanel, menuPanel);
       }
       checkInformation();
     });

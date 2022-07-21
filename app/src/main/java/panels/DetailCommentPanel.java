@@ -7,18 +7,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class CommentContentPanel extends JPanel {
+public class DetailCommentPanel extends JPanel {
   private List<Comment> comments;
   private Comment comment;
   private JPanel showCommentPanel;
   private Post post;
 
-  public CommentContentPanel(List<Comment> comments, Comment comment,
-                             JPanel showCommentPanel, Post post) {
+  public DetailCommentPanel(List<Comment> comments, Comment comment,
+                            JPanel showCommentPanel, Post post) {
     this.comments = comments;
     this.comment = comment;
     this.showCommentPanel = showCommentPanel;
     this.post = post;
+
     this.setLayout(new GridLayout(0, 1));
     initCommentPanel(comments);
   }

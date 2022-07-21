@@ -1,16 +1,14 @@
 import models.Comment;
 import models.Post;
 import models.RegistraionNumber;
-import panels.ContentPanel;
-import Frame.DetailPageFrame;
+import panels.PostsPanel;
+import panels.SearchPanel;
 import panels.WriteGoalPanel;
 import utils.CommentLoader;
 import utils.PostLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
@@ -30,7 +28,7 @@ public class DeclareBoard {
   private JFrame frame;
   private JPanel menuPanel;
   private WriteGoalPanel writeGoalPanel;
-  private ContentPanel contentPanel;
+  private PostsPanel postsPanel;
   private JPanel mainPanel;
 
   public static void main(String[] args) throws FileNotFoundException {
@@ -54,7 +52,7 @@ public class DeclareBoard {
 
     initmainPanel();
 
-    initContentPanel();
+    //initContentPanel();
 
     savePosts();
 
@@ -69,16 +67,22 @@ public class DeclareBoard {
 
   private void initMenuPanel() {
     menuPanel = new JPanel();
+    mainPanel = new JPanel();
     menuPanel.add(createWriteButton());
-    //menuPanel.add(createMenuButton());
+    menuPanel.add(createSearchButton());
     frame.add(menuPanel, BorderLayout.PAGE_START);
+    frame.add(mainPanel);
   }
 
-  private JButton createMenuButton() {
-    JButton button = new JButton();
+  private JButton createSearchButton() {
+    JButton button = new JButton("게시글 검색");
     button.addActionListener(event -> {
-      menuPanel.setVisible(true);
-      contentPanel.setVisible(true);
+      menuPanel.setVisible(false);
+      mainPanel.setVisible(false);
+      SearchPanel searchPanel = new SearchPanel(mainPanel,menuPanel,
+          post,posts,comment,comments);
+      searchPanel.setBackground(Color.green);
+      frame.add(searchPanel);
     });
     return button;
   }
@@ -86,7 +90,7 @@ public class DeclareBoard {
   private JButton createWriteButton() {
     JButton button = new JButton("목표 작성하기");
     button.addActionListener(event -> {
-      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel);
+      writeGoalPanel = new WriteGoalPanel(menuPanel, posts, mainPanel,comments,comment);
       showWritePanel(writeGoalPanel);
     });
     return button;
@@ -95,27 +99,27 @@ public class DeclareBoard {
   // 그런데 지금 글을 쓰면서 생각을 해보니까
 
   private void initmainPanel() {
-    mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayout(0, 1));
     mainPanel.removeAll();
-    for (Post post : posts) {
-      if (!post.state().equals("DELETION")) {
-        JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
-        titleLabel.addMouseListener(new MouseAdapter() {
-          public void mouseClicked(MouseEvent event) {
-            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
-                mainPanel, comments, comment);
-            detailPageFrame.setVisible(true);
-          }
-        });
-        mainPanel.add(titleLabel);
-      }
-    }
-    frame.add(mainPanel);
-  }
 
-  private void initContentPanel() {
-    contentPanel = new ContentPanel(posts, post, mainPanel);
+    PostsPanel postsPanel = new PostsPanel(posts,post,comment
+        ,comments,mainPanel);
+    //지금 콘텐트 패널에 comments가 없어서 그런거 같은데
+    mainPanel.add(postsPanel);
+//    for (Post post : posts) {
+//      if (!post.state().equals("DELETION")) {
+//        JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
+//        titleLabel.addMouseListener(new MouseAdapter() {
+//          public void mouseClicked(MouseEvent event) {
+//            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
+//                mainPanel, comments, comment);
+//            detailPageFrame.setVisible(true);
+//          }   //content패널을 하면 될거 같음
+//        });
+//        mainPanel.add(titleLabel);
+//      }
+//    }
+//    frame.add(mainPanel);
   }
 
   private void showWritePanel(WriteGoalPanel writeGoalPanel) {

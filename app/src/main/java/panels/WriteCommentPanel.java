@@ -72,26 +72,6 @@ public class WriteCommentPanel extends JPanel {
     this.setBackground(Color.cyan);
   }
 
-  private JLabel createNickNameLabel() {
-    return new JLabel("닉네임: " + nickName);
-  }
-
-  private JTextArea createCommentArea() {
-    JTextArea textArea = new JTextArea(content);
-    textArea.setEditable(false);
-    return textArea;
-  }
-
-  // 지금 구조가 어떻게 되냐
-
-  private JButton createDeleteButton() {
-    JButton button = new JButton("X");
-    button.addActionListener(event -> {
-      comment.delete();
-
-    });
-    return button;
-  }
   private void initCommentRegisterButton() {
     JButton button = new JButton("댓글등록");
     button.addActionListener(event -> {
@@ -112,9 +92,9 @@ public class WriteCommentPanel extends JPanel {
         post.registrationNumber());
     comments.add(comment);
 
-    CommentContentPanel commentContentPanel = new CommentContentPanel(comments,
+    DetailCommentPanel detailCommentPanel = new DetailCommentPanel(comments,
         comment,showCommentPanel,post);
-    showCommentPanel.add(commentContentPanel);
+    showCommentPanel.add(detailCommentPanel);
 
     this.setVisible(false);
     showCommentPanel.setVisible(true);
