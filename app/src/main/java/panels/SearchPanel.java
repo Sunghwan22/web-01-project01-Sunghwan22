@@ -38,13 +38,11 @@ public class SearchPanel extends JPanel {
     searchResultPanel = new JPanel();
     this.add(searchResultPanel, BorderLayout.CENTER);
     searchResultPanel.setLayout(new BorderLayout());
-    searchResultPanel.setBackground(Color.yellow);
   }
 
   private void initGoBackButton(JPanel mainPanel, JPanel menuPanel) {
     JPanel buttonPanel = new JPanel();
     this.add(buttonPanel, BorderLayout.PAGE_START);
-    buttonPanel.setBackground(Color.blue);
 
     JButton button = new JButton("뒤로가기");
     button.addActionListener(event -> {
@@ -89,6 +87,22 @@ public class SearchPanel extends JPanel {
     searchResultPanel.setVisible(true);
   }
 
+  private void searchTitle(String text) {
+    searchResultPanel.removeAll();
+
+    initFormPanel();
+
+    for(Post post : posts){
+      if(post.state().equals(Post.PROGRESS) &&
+        post.title().contains(text)) {
+        PostPanel postPanel = new PostPanel(posts,post,comment,
+            comments,mainPanel);
+        searchResultPanel.add(postPanel);
+        postPanel.setVisible(true);
+      }
+    }
+  }
+
   private void searchNickname(String text) {
     searchResultPanel.removeAll();
 
@@ -99,23 +113,6 @@ public class SearchPanel extends JPanel {
           post.nickName().contains(text)) {
         PostPanel postPanel = new PostPanel(posts, post, comment,
             comments, mainPanel);
-        searchResultPanel.add(postPanel);
-        postPanel.setVisible(true);
-        postPanel.setBackground(Color.green);
-      }
-    }
-  }
-
-  private void searchTitle(String text) {
-    searchResultPanel.removeAll();
-
-    initFormPanel();
-
-    for(Post post : posts){
-      if(post.state().equals(Post.PROGRESS) &&
-          post.title().contains(text)) {
-        PostPanel postPanel = new PostPanel(posts,post,comment,
-            comments,mainPanel);
         searchResultPanel.add(postPanel);
         postPanel.setVisible(true);
       }

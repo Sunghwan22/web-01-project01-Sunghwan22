@@ -1,4 +1,4 @@
-package Frame;
+package frame;
 
 import models.Comment;
 import models.Post;
@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class DetailPageFrame extends JFrame {
+public class PostDetailPageFrame extends JFrame {
 
   private JTextField titleField;
   private JTextArea contentArea;
@@ -24,8 +24,8 @@ public class DetailPageFrame extends JFrame {
   private String inputPassword;
 
 
-  public DetailPageFrame(Post post, List<Post> posts, JPanel mainPanel,
-                         List<Comment> comments, Comment comment) {
+  public PostDetailPageFrame(Post post, List<Post> posts, JPanel mainPanel,
+                             List<Comment> comments, Comment comment) {
     this.post = post;
     this.posts = posts;
     this.mainPanel = mainPanel;
@@ -46,9 +46,30 @@ public class DetailPageFrame extends JFrame {
 
     initmodifyButton();
 
+    initCompleteButton();
+
     initCompleteModifyButton(post, posts, mainPanel);
 
     createCommentButton();
+  }
+
+  public void initCompleteButton() {
+    JButton completeButton = new JButton("목표달성!");
+    completeButton.addActionListener(event -> {
+      inputPassword();
+
+      if (inputPassword.equals(post.passWord())) {
+        post.complete();
+        PostsPanel postsPanel = new PostsPanel(posts, post, comment
+            , comments, mainPanel);
+
+        showMainPanel(postsPanel);
+        this.setVisible(false);
+      }
+      checkPassword();
+    });
+    detailPagePanel.add(completeButton);
+    completeButton.setBounds(440, 605, 100, 50);
   }
 
   private void createCommentButton() {
@@ -56,7 +77,7 @@ public class DetailPageFrame extends JFrame {
     button.addActionListener(event -> {
       detailPagePanel.setVisible(false);
       CommentPanel commentPanel = new CommentPanel(detailPagePanel
-          ,comments,comment,post);
+          , comments, comment, post);
       this.add(commentPanel);
     });
     detailPagePanel.add(button);
@@ -109,8 +130,8 @@ public class DetailPageFrame extends JFrame {
       if (inputPassword.equals(post.passWord())) {
         post.delete();
 
-        PostsPanel postsPanel = new PostsPanel(posts, post,comment
-            ,comments,mainPanel);
+        PostsPanel postsPanel = new PostsPanel(posts, post, comment
+            , comments, mainPanel);
 
         showMainPanel(postsPanel);
         this.setVisible(false);
@@ -148,7 +169,7 @@ public class DetailPageFrame extends JFrame {
         post.modifyContent(contentArea.getText());
 
         PostsPanel postsPanel = new PostsPanel(posts, post, comment,
-            comments,mainPanel);
+            comments, mainPanel);
         showMainPanel(postsPanel);
         this.setVisible(false);
       }

@@ -1,11 +1,10 @@
 package panels;
 
-import Frame.DetailPageFrame;
+import frame.PostDetailPageFrame;
 import models.Comment;
 import models.Post;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -28,12 +27,11 @@ public class PostPanel extends JPanel {
     titleLabel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent event) {
-        DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
+        PostDetailPageFrame postDetailPageFrame = new PostDetailPageFrame(post, posts,
             mainPanel, comments, comment);
-        detailPageFrame.setVisible(true);
+        postDetailPageFrame.setVisible(true);
       }
     });
     containerPanel.add(titleLabel);
-    containerPanel.setBackground(Color.blue);
   }
 }
