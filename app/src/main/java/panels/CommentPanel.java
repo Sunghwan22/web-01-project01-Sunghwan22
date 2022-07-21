@@ -49,9 +49,9 @@ public class CommentPanel extends JPanel {
   }
 
   private void showComment(List<Comment> comments, Comment comment) {
-    CommentContentPanel commentContentPanel = new CommentContentPanel(comments, comment,
+    DetailCommentPanel detailCommentPanel = new DetailCommentPanel(comments, comment,
         showCommentPanel, post);
-    showCommentPanel.add(commentContentPanel);
+    showCommentPanel.add(detailCommentPanel);
   }
 }
 

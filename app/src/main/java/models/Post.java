@@ -52,6 +52,10 @@ public class Post {
     this.state = DELETION;
   }
 
+  public void complete() {
+    this.state = COMPLETE;
+  }
+
   public void modifyTitle(String modifyTitle) {
     this.title = modifyTitle;
   }

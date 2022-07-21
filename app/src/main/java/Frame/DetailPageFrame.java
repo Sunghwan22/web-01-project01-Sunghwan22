@@ -3,7 +3,7 @@ package Frame;
 import models.Comment;
 import models.Post;
 import panels.CommentPanel;
-import panels.ContentPanel;
+import panels.PostsPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,9 +109,10 @@ public class DetailPageFrame extends JFrame {
       if (inputPassword.equals(post.passWord())) {
         post.delete();
 
-        ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
+        PostsPanel postsPanel = new PostsPanel(posts, post,comment
+            ,comments,mainPanel);
 
-        showMainPanel(contentPanel);
+        showMainPanel(postsPanel);
         this.setVisible(false);
       }
 
@@ -146,8 +147,9 @@ public class DetailPageFrame extends JFrame {
         post.modifyTitle(titleField.getText());
         post.modifyContent(contentArea.getText());
 
-        ContentPanel contentPanel = new ContentPanel(posts, post, mainPanel);
-        showMainPanel(contentPanel);
+        PostsPanel postsPanel = new PostsPanel(posts, post, comment,
+            comments,mainPanel);
+        showMainPanel(postsPanel);
         this.setVisible(false);
       }
       checkPassword();
