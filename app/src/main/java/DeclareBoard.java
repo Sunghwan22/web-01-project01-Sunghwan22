@@ -1,6 +1,7 @@
 import models.Comment;
 import models.Post;
 import models.RegistraionNumber;
+import panels.CompletePostPanel;
 import panels.PostsPanel;
 import panels.SearchPanel;
 import panels.WriteGoalPanel;
@@ -52,8 +53,6 @@ public class DeclareBoard {
 
     initmainPanel();
 
-    //initContentPanel();
-
     savePosts();
 
     frame.setVisible(true);
@@ -68,10 +67,39 @@ public class DeclareBoard {
   private void initMenuPanel() {
     menuPanel = new JPanel();
     mainPanel = new JPanel();
+    mainPanel.setLayout(new GridLayout(0, 1));
     menuPanel.add(createWriteButton());
+    menuPanel.add(createCompleteGoalButton());
+    menuPanel.add(createAllPostButton());
     menuPanel.add(createSearchButton());
     frame.add(menuPanel, BorderLayout.PAGE_START);
     frame.add(mainPanel);
+  }
+
+  private JButton createAllPostButton() {
+    JButton allPostButton = new JButton("전체 글");
+    allPostButton.addActionListener(event -> {
+      mainPanel.removeAll();
+      PostsPanel postsPanel = new PostsPanel(posts,post,comment
+          ,comments,mainPanel);
+      mainPanel.add(postsPanel);
+      mainPanel.setVisible(false);
+      mainPanel.setVisible(true);
+    });
+    return allPostButton;
+  }
+
+  private JButton createCompleteGoalButton() {
+    JButton button = new JButton("완료한 목표");
+    button.addActionListener(event -> {
+      mainPanel.removeAll();
+      CompletePostPanel completePostPanel = new CompletePostPanel(posts,post,comment
+          ,comments,mainPanel);
+      mainPanel.add(completePostPanel);
+      mainPanel.setVisible(false);
+      mainPanel.setVisible(true);
+    });
+    return button;
   }
 
   private JButton createSearchButton() {
@@ -81,7 +109,6 @@ public class DeclareBoard {
       mainPanel.setVisible(false);
       SearchPanel searchPanel = new SearchPanel(mainPanel,menuPanel,
           post,posts,comment,comments);
-      searchPanel.setBackground(Color.green);
       frame.add(searchPanel);
     });
     return button;
@@ -99,27 +126,10 @@ public class DeclareBoard {
   // 그런데 지금 글을 쓰면서 생각을 해보니까
 
   private void initmainPanel() {
-    mainPanel.setLayout(new GridLayout(0, 1));
     mainPanel.removeAll();
-
     PostsPanel postsPanel = new PostsPanel(posts,post,comment
         ,comments,mainPanel);
-    //지금 콘텐트 패널에 comments가 없어서 그런거 같은데
     mainPanel.add(postsPanel);
-//    for (Post post : posts) {
-//      if (!post.state().equals("DELETION")) {
-//        JLabel titleLabel = new JLabel(post.title() + "\t" + post.nickName());
-//        titleLabel.addMouseListener(new MouseAdapter() {
-//          public void mouseClicked(MouseEvent event) {
-//            DetailPageFrame detailPageFrame = new DetailPageFrame(post, posts,
-//                mainPanel, comments, comment);
-//            detailPageFrame.setVisible(true);
-//          }   //content패널을 하면 될거 같음
-//        });
-//        mainPanel.add(titleLabel);
-//      }
-//    }
-//    frame.add(mainPanel);
   }
 
   private void showWritePanel(WriteGoalPanel writeGoalPanel) {

@@ -12,7 +12,6 @@ public class Post {
   private String passWord;
   private int registrationNumber;
 
-  //todo 등록번호를 여기서 여기서 매개변수로 받아서 쓰는게 맞을까?
   public Post(String title, String content, String state, String nickName,
               String passWord, int registrationNumber) {
     this.title = title;

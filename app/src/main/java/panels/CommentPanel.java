@@ -23,12 +23,9 @@ public class CommentPanel extends JPanel {
 
     JPanel menuPanel = new JPanel();
     this.add(menuPanel, BorderLayout.PAGE_START);
-    menuPanel.setBackground(Color.blue);
 
     showCommentPanel = new JPanel();
     this.add(showCommentPanel, BorderLayout.CENTER);
-    showCommentPanel.setBackground(Color.green);
-
 
     JButton goBackbutton = new JButton("뒤로가기");
     goBackbutton.addActionListener(event -> {
@@ -40,7 +37,7 @@ public class CommentPanel extends JPanel {
     JButton writeCommentButton = new JButton("댓글쓰기");
     writeCommentButton.addActionListener(event -> {
       showCommentPanel.setVisible(false);
-      JPanel writeCommentPanel = new WriteCommentPanel(showCommentPanel, comments,post);
+      JPanel writeCommentPanel = new WriteCommentPanel(showCommentPanel, comments, post);
       this.add(writeCommentPanel);
     });
     menuPanel.add(writeCommentButton);

@@ -1,6 +1,6 @@
 package panels;
 
-import Frame.CancelFrame;
+import frame.CancelFrame;
 import models.Comment;
 import models.Post;
 import models.RegistraionNumber;
@@ -152,12 +152,12 @@ public class WriteGoalPanel extends JPanel {
     }
   }
 
-  public void showMainPanel(JPanel contentPanel, JPanel menuPanel) {
+  public void showMainPanel(JPanel postsPanel, JPanel menuPanel) {
     this.setVisible(false);
     menuPanel.setVisible(true);
 
     mainPanel.removeAll();
-    mainPanel.add(contentPanel);
+    mainPanel.add(postsPanel);
     mainPanel.setVisible(false);
     mainPanel.setVisible(true);
   }

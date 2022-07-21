@@ -1,5 +1,6 @@
 package panels;
 
+import frame.CompletePostDetailPageFrame;
 import frame.PostDetailPageFrame;
 import models.Comment;
 import models.Post;
@@ -10,21 +11,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class PostsPanel extends JPanel {
+public class CompletePostPanel extends JPanel{
   private List<Post> posts;
   private Post post;
-  private JPanel mainPanel;
-  private List<Comment> comments;
   private Comment comment;
+  private List<Comment> comments;
+  private JPanel mainPanel;
 
-  public PostsPanel(List<Post> posts, Post post, Comment comment,
-                    List<Comment> comments, JPanel mainPanel) {
+  public CompletePostPanel(List<Post> posts, Post post, Comment comment,
+                           List<Comment> comments, JPanel mainPanel) {
     this.posts = posts;
     this.post = post;
     this.comment = comment;
     this.comments = comments;
     this.mainPanel = mainPanel;
-    this.setLayout(new GridLayout(0,1));
+
+    this.setLayout(new GridLayout(0, 1));
     showContentPanel();
   }
 
@@ -32,7 +34,7 @@ public class PostsPanel extends JPanel {
     this.removeAll();
 
     for (Post post : posts) {
-      if (post.state().equals("PROGRESS")) {
+      if (post.state().equals("COMPLETE")) {
         JPanel containerPanel = new JPanel();
         this.add(containerPanel);
 
@@ -41,9 +43,9 @@ public class PostsPanel extends JPanel {
         titleLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent event) {
-            PostDetailPageFrame postDetailPageFrame = new PostDetailPageFrame(post, posts,
-                mainPanel, comments,comment);
-            postDetailPageFrame.setVisible(true);
+           CompletePostDetailPageFrame completePostDetailPageFrame =
+               new CompletePostDetailPageFrame(post,posts,mainPanel,comments,comment);
+            completePostDetailPageFrame.setVisible(true);
           }
         });
         containerPanel.add(titleLabel);
@@ -51,3 +53,4 @@ public class PostsPanel extends JPanel {
     }
   }
 }
+
