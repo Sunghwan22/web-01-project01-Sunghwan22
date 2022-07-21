@@ -2,6 +2,9 @@ import models.Comment;
 import models.Post;
 import models.RegistraionNumber;
 import panels.CompletePostPanel;
+import panels.FrameBackGroundPanel;
+import panels.PostLikesPanel;
+import panels.PostViewsPanel;
 import panels.PostsPanel;
 import panels.SearchPanel;
 import panels.WriteGoalPanel;
@@ -44,6 +47,7 @@ public class DeclareBoard {
 
     commentLoader = new CommentLoader(post);
     comments = commentLoader.loadComment();
+    post = new Post();
   }
 
   private void run() throws FileNotFoundException {
@@ -55,7 +59,16 @@ public class DeclareBoard {
 
     savePosts();
 
+    //frameImage();
+
     frame.setVisible(true);
+  }
+
+  private void frameImage() {
+    FrameBackGroundPanel frameBackGroundPanel = new FrameBackGroundPanel(new ImageIcon(
+        "BackGroundImage.jpeg").getImage());
+
+    frame.add(frameBackGroundPanel);
   }
 
   private void createFrame() {
@@ -66,14 +79,39 @@ public class DeclareBoard {
 
   private void initMenuPanel() {
     menuPanel = new JPanel();
+
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayout(0, 1));
-    menuPanel.add(createWriteButton());
-    menuPanel.add(createCompleteGoalButton());
+    menuPanel.add(createByLikeButton());
+    menuPanel.add(createByViewsButton());
     menuPanel.add(createAllPostButton());
     menuPanel.add(createSearchButton());
+    menuPanel.add(createWriteButton());
+    menuPanel.add(createCompleteGoalButton());
     frame.add(menuPanel, BorderLayout.PAGE_START);
     frame.add(mainPanel);
+  }
+
+  private JButton createByLikeButton() {
+    JButton likeButton = new JButton("개념");
+    likeButton.addActionListener(event -> {
+      mainPanel.removeAll();
+      PostLikesPanel postLikesPanel = new PostLikesPanel(posts,post,comment,
+          comments,mainPanel);
+      showMainPanel(postLikesPanel);
+    });
+    return likeButton;
+  }
+
+  private JButton createByViewsButton() {
+    JButton viewsButton = new JButton("조회수");
+    viewsButton.addActionListener(event -> {
+      mainPanel.removeAll();
+      PostViewsPanel postViewsPanel = new PostViewsPanel(posts,post,comment
+          ,comments,mainPanel);
+      showMainPanel(postViewsPanel);
+    });
+    return viewsButton;
   }
 
   private JButton createAllPostButton() {
@@ -82,9 +120,7 @@ public class DeclareBoard {
       mainPanel.removeAll();
       PostsPanel postsPanel = new PostsPanel(posts,post,comment
           ,comments,mainPanel);
-      mainPanel.add(postsPanel);
-      mainPanel.setVisible(false);
-      mainPanel.setVisible(true);
+      showMainPanel(postsPanel);
     });
     return allPostButton;
   }
@@ -95,9 +131,7 @@ public class DeclareBoard {
       mainPanel.removeAll();
       CompletePostPanel completePostPanel = new CompletePostPanel(posts,post,comment
           ,comments,mainPanel);
-      mainPanel.add(completePostPanel);
-      mainPanel.setVisible(false);
-      mainPanel.setVisible(true);
+      showMainPanel(completePostPanel);
     });
     return button;
   }
@@ -123,8 +157,8 @@ public class DeclareBoard {
     return button;
   }
 
-  // 그런데 지금 글을 쓰면서 생각을 해보니까
 
+  // 그런데 지금 글을 쓰면서 생각을 해보니까
   private void initmainPanel() {
     mainPanel.removeAll();
     PostsPanel postsPanel = new PostsPanel(posts,post,comment
@@ -137,6 +171,12 @@ public class DeclareBoard {
     menuPanel.setVisible(false);
     mainPanel.setVisible(false);
     writeGoalPanel.setVisible(true);
+  }
+
+  private void showMainPanel(JPanel panel) {
+    mainPanel.add(panel);
+    mainPanel.setVisible(false);
+    mainPanel.setVisible(true);
   }
 
   public void savePosts() {

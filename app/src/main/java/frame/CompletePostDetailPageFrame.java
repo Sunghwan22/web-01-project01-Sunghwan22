@@ -46,9 +46,22 @@ public class CompletePostDetailPageFrame extends JFrame {
 
     initmodifyButton();
 
+    initLikeButton();
+
     initCompleteModifyButton(post, posts, mainPanel);
 
     createCommentButton();
+  }
+
+  private JButton initLikeButton() {
+    JButton likeButton = new JButton("추천 " + post.like());
+    likeButton.addActionListener(event -> {
+      likeButton.setText("추천 " + post.like());
+      post.plusLike();
+    });
+    detailPagePanel.add(likeButton);
+    likeButton.setBounds(300, 605, 100, 50);
+    return likeButton;
   }
 
   private void createCommentButton() {

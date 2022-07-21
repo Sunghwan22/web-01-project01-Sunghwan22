@@ -38,18 +38,6 @@ public class PostLoader {
     fileWriter.close();
   }
 
-  private Post parsePost(String line) {
-    String[] words = line.split(",");
-    String title = words[0];
-    String content = words[1];
-    String nickName = words[2];
-    String passWord = words[3];
-    String state = words[4];
-    int registrationNumber = Integer.parseInt(words[5]);
-    //
-    return new Post(title, content, state, nickName, passWord, registrationNumber);
-  }
-
   public int loadRegistraionNumber() throws FileNotFoundException {
     File file = new File("RegistraionNumber.csv");
 
@@ -66,5 +54,20 @@ public class PostLoader {
     fileWriter.write(registraionNumber + "\n");
 
     fileWriter.close();
+  }
+
+  private Post parsePost(String line) {
+    String[] words = line.split(",");
+    String title = words[0];
+    String content = words[1];
+    String nickName = words[2];
+    String passWord = words[3];
+    String state = words[4];
+    int registrationNumber = Integer.parseInt(words[5]);
+    int views = Integer.parseInt(words[6]);
+    int like = Integer.parseInt(words[7]);
+
+    return new Post(title, content, state, nickName, passWord,
+        registrationNumber,views,like);
   }
 }

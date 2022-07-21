@@ -7,6 +7,8 @@ import models.RegistraionNumber;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class WriteGoalPanel extends JPanel {
@@ -109,6 +111,15 @@ public class WriteGoalPanel extends JPanel {
         post = new Post(title, content, Post.PROGRESS, nickName, password,
             RegistraionNumber.RegistraionNumber);
         posts.add(post);
+
+        Comparator<Post> views = new Comparator<>() {
+          @Override
+          public int compare(Post o1, Post o2) {
+            return o2.registrationNumber() - o1.registrationNumber();
+          }
+        };
+
+        Collections.sort(posts,views);
 
         postsPanel = new PostsPanel(posts, post, comment,comments,mainPanel);
 

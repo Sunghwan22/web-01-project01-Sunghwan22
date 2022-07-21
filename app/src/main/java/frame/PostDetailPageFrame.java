@@ -7,6 +7,8 @@ import panels.PostsPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class PostDetailPageFrame extends JFrame {
@@ -22,7 +24,7 @@ public class PostDetailPageFrame extends JFrame {
   private Comment comment;
   private JPasswordField passwordField;
   private String inputPassword;
-
+  private int like;
 
   public PostDetailPageFrame(Post post, List<Post> posts, JPanel mainPanel,
                              List<Comment> comments, Comment comment) {
@@ -48,9 +50,35 @@ public class PostDetailPageFrame extends JFrame {
 
     initCompleteButton();
 
+    initLikeButton();
+
     initCompleteModifyButton(post, posts, mainPanel);
 
     createCommentButton();
+  }
+
+  private JButton initLikeButton() {
+    JButton likeButton = new JButton("추천 " + post.like());
+    likeButton.addActionListener(event -> {
+      likeButton.setText("추천 " + post.like());
+      post.plusLike();
+    });
+    detailPagePanel.add(likeButton);
+    likeButton.setBounds(300, 605, 100, 50);
+    return likeButton;
+  }
+
+  private void createDetailFrame() {
+    this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    this.setSize(700, 700);
+    this.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        PostsPanel postsPanel = new PostsPanel(posts, post, comment,
+            comments, mainPanel);
+        showMainPanel(postsPanel);
+      }
+    });
   }
 
   public void initCompleteButton() {
@@ -82,11 +110,6 @@ public class PostDetailPageFrame extends JFrame {
     });
     detailPagePanel.add(button);
     button.setBounds(550, 12, 100, 50);
-  }
-
-  private void createDetailFrame() {
-    this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    this.setSize(700, 700);
   }
 
   private void initPasswordField() {
@@ -195,6 +218,7 @@ public class PostDetailPageFrame extends JFrame {
       warningFrame.setSize(200, 100);
       warningFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       warningFrame.setVisible(true);
+      warningFrame.setLocation(350, 350);
 
       JLabel messageLabel = new JLabel("비밀번호를 확인하세요");
       warningFrame.add(messageLabel);

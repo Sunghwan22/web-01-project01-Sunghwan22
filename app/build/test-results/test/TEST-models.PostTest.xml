@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="models.PostTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-18T11:51:56" hostname="seonghwan-ui-MacBookPro.local" time="0.013">
-  <properties/>
-  <testcase name="creation()" classname="models.PostTest" time="0.013"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
