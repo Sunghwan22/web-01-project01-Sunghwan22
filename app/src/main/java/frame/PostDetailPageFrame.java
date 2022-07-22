@@ -44,17 +44,17 @@ public class PostDetailPageFrame extends JFrame {
 
     initContentArea(post);
 
-    initDeleteButton(post, posts, mainPanel);
-
     initmodifyButton();
 
     initCompleteButton();
 
     initLikeButton();
 
-    initCompleteModifyButton(post, posts, mainPanel);
-
     createCommentButton();
+
+    initDeleteButton(post, posts, mainPanel);
+
+    initCompleteModifyButton(post, posts, mainPanel);
   }
 
   private JButton initLikeButton() {

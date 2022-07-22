@@ -35,20 +35,10 @@ public class CompletePostPanel extends JPanel{
 
     for (Post post : posts) {
       if (post.state().equals("COMPLETE")) {
-        JPanel containerPanel = new JPanel();
-        this.add(containerPanel);
-
-        JLabel titleLabel = new JLabel("작성자: " + post.nickName() + post.title());
-
-        titleLabel.addMouseListener(new MouseAdapter() {
-          @Override
-          public void mouseClicked(MouseEvent event) {
-           CompletePostDetailPageFrame completePostDetailPageFrame =
-               new CompletePostDetailPageFrame(post,posts,mainPanel,comments,comment);
-            completePostDetailPageFrame.setVisible(true);
-          }
-        });
-        containerPanel.add(titleLabel);
+        PostPanel postPanel = new PostPanel(posts, post, comment,
+            comments, mainPanel);
+        this.add(postPanel);
+        this.setVisible(true);
       }
     }
   }

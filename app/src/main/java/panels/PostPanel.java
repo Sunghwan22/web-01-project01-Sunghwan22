@@ -5,6 +5,8 @@ import models.Comment;
 import models.Post;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -16,15 +18,20 @@ public class PostPanel extends JPanel {
                    List<Comment> comments, JPanel mainPanel) {
     this.removeAll();
 
+    this.setBorder(new LineBorder(Color.BLACK, 1, true));
+
     JPanel panel = new JPanel();
     this.add(panel);
 
     JPanel containerPanel = new JPanel();
     panel.add(containerPanel);
+    containerPanel.setLayout(new FlowLayout());
 
-    JLabel titleLabel = new JLabel("등록번호      " + post.registrationNumber() +
-        "작성자:    " + post.nickName() + "제목       " + post.title() +
-        "조회 수    " + post.views() + "추천  " + post.like());
+    JLabel titleLabel = new JLabel(post.registrationNumber() + "                " +
+        "                                   " +  post.title());
+    JLabel nickNameLabel = new JLabel("                            " +
+        "            " + post.nickName() + "                   " + post.like());
+    JLabel likesLabel = new JLabel("          " + post.views());
 
     titleLabel.addMouseListener(new MouseAdapter() {
       @Override
@@ -36,5 +43,7 @@ public class PostPanel extends JPanel {
       }
     });
     containerPanel.add(titleLabel);
+    containerPanel.add(nickNameLabel);
+    containerPanel.add(likesLabel);
   }
 }

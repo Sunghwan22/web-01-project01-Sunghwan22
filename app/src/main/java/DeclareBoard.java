@@ -79,15 +79,22 @@ public class DeclareBoard {
 
   private void initMenuPanel() {
     menuPanel = new JPanel();
+    menuPanel.setLayout(new GridLayout(2,1));
 
     mainPanel = new JPanel();
     mainPanel.setLayout(new GridLayout(0, 1));
-    menuPanel.add(createByLikeButton());
-    menuPanel.add(createByViewsButton());
-    menuPanel.add(createAllPostButton());
-    menuPanel.add(createSearchButton());
-    menuPanel.add(createWriteButton());
-    menuPanel.add(createCompleteGoalButton());
+
+    JPanel buttonPanel = new JPanel();
+    menuPanel.add(buttonPanel);
+    buttonPanel.add(createByLikeButton());
+    buttonPanel.add(createByViewsButton());
+    buttonPanel.add(createAllPostButton());
+    buttonPanel.add(createSearchButton());
+    buttonPanel.add(createWriteButton());
+    buttonPanel.add(createCompleteGoalButton());
+
+    initguidePanel();
+
     frame.add(menuPanel, BorderLayout.PAGE_START);
     frame.add(mainPanel);
   }
@@ -157,8 +164,6 @@ public class DeclareBoard {
     return button;
   }
 
-
-  // 그런데 지금 글을 쓰면서 생각을 해보니까
   private void initmainPanel() {
     mainPanel.removeAll();
     PostsPanel postsPanel = new PostsPanel(posts,post,comment
@@ -177,6 +182,17 @@ public class DeclareBoard {
     mainPanel.add(panel);
     mainPanel.setVisible(false);
     mainPanel.setVisible(true);
+  }
+
+  private void initguidePanel() {
+    JPanel guidePanel = new JPanel();
+    JLabel guideLabel = new JLabel("   번호         " + "                " +
+        "         " + "                    제목                       " +
+        "                            글쓴이         " +
+        "          추천   " +      "       조회수");
+    guideLabel.setFont(new Font("serif", Font.BOLD, 13));
+    guidePanel.add(guideLabel);
+    menuPanel.add(guidePanel);
   }
 
   public void savePosts() {

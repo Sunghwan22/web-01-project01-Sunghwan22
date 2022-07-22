@@ -12,7 +12,6 @@ public class DetailCommentPanel extends JPanel {
   private Comment comment;
   private JPanel showCommentPanel;
   private Post post;
-    /// 성공하는 팝업을 뛰워준다?
   public DetailCommentPanel(List<Comment> comments, Comment comment,
                             JPanel showCommentPanel, Post post) {
     this.comments = comments;
