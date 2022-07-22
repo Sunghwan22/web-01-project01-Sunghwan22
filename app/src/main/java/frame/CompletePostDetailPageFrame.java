@@ -38,19 +38,19 @@ public class CompletePostDetailPageFrame extends JFrame {
 
     initPasswordField();
 
-    initTitleField(post);
-
-    initContentArea(post);
-
-    initDeleteButton(post, posts, mainPanel);
+    createCommentButton();
 
     initmodifyButton();
 
     initLikeButton();
 
+    initTitleField(post);
+
+    initContentArea(post);
+
     initCompleteModifyButton(post, posts, mainPanel);
 
-    createCommentButton();
+    initDeleteButton(post, posts, mainPanel);
   }
 
   private JButton initLikeButton() {
