@@ -33,6 +33,7 @@ public class CommentLoader {
     }
     return comments;
   }
+
   public void commentWriter(List<Comment> comments) throws IOException {
     FileWriter fileWriter = new FileWriter("Comments.csv");
     for(Comment comment : comments){

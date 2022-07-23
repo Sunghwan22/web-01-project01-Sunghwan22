@@ -40,7 +40,7 @@ public class DetailCommentPanel extends JPanel {
   }
 
   private JLabel createNickNameLabel(Comment comment) {
-    return new JLabel("닉네임" + comment.nickName());
+    return new JLabel("글쓴이   " + comment.nickName() + "         ");
   }
 
   private JTextArea createCommentArea(Comment comment) {

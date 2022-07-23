@@ -1,7 +1,6 @@
 package utils;
 
 import models.Post;
-import models.RegistraionNumber;
 
 import java.io.File;
 import java.io.FileNotFoundException;

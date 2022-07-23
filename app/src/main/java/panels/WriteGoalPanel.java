@@ -3,7 +3,7 @@ package panels;
 import frame.CancelFrame;
 import models.Comment;
 import models.Post;
-import models.RegistraionNumber;
+import utils.RegistraionNumber;
 
 import javax.swing.*;
 import java.awt.*;

@@ -27,12 +27,11 @@ class PostTest {
   void modifyPost() {
     Post post = new Post("안녕하세요", "으아아아", Post.PROGRESS, "안녕", "123", 1);
     post.modifyTitle("반갑습니다");
-    post.modifyContent("상남자되버리기");
+    post.modifyContent("으아아아");
 
     assertEquals("반갑습니다", post.title());
-    assertEquals("상남자되버리기", post.content());
+    assertEquals("으아아아아", post.content());
   }
-
   @Test
   void toCsvRow() {
     Post post = new Post("안녕하세요", "으아아아", Post.PROGRESS, "안녕", "123", 4,0,0);

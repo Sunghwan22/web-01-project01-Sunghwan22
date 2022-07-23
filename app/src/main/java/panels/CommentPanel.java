@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.List;
 
 public class CommentPanel extends JPanel {
+  private JPanel menuPanel;
   private JPanel showCommentPanel;
   private JPanel detailPagePanel;
   private Post post;
@@ -21,19 +22,33 @@ public class CommentPanel extends JPanel {
 
     this.setLayout(new BorderLayout());
 
-    JPanel menuPanel = new JPanel();
+    initCommentPanel();
+
+    initGoBackPage(detailPagePanel);
+
+    initWriteCommentButton(comments, post);
+
+    showComment(comments, comment);
+  }
+
+  private void initCommentPanel() {
+    menuPanel = new JPanel();
     this.add(menuPanel, BorderLayout.PAGE_START);
 
     showCommentPanel = new JPanel();
     this.add(showCommentPanel, BorderLayout.CENTER);
+  }
 
+  private void initGoBackPage(JPanel detailPagePanel) {
     JButton goBackbutton = new JButton("뒤로가기");
     goBackbutton.addActionListener(event -> {
       this.setVisible(false);
       detailPagePanel.setVisible(true);
     });
     menuPanel.add(goBackbutton);
+  }
 
+  private void initWriteCommentButton(List<Comment> comments, Post post) {
     JButton writeCommentButton = new JButton("댓글쓰기");
     writeCommentButton.addActionListener(event -> {
       showCommentPanel.setVisible(false);
@@ -41,8 +56,6 @@ public class CommentPanel extends JPanel {
       this.add(writeCommentPanel);
     });
     menuPanel.add(writeCommentButton);
-
-    showComment(comments, comment);
   }
 
   private void showComment(List<Comment> comments, Comment comment) {

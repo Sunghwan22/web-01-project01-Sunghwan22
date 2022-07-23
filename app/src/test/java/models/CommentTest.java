@@ -17,6 +17,7 @@ class CommentTest {
 
     assertEquals("DELETION", comment.state());
   }
+
   @Test
   void toCsvRow() {
     Comment comment = new Comment("조성환", "123", "야이꽃미남아 때려치아라", "DISPLAY", 1);

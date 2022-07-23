@@ -75,7 +75,7 @@ public class SearchPanel extends JPanel {
         if (category.equals("작성자")) {
           searchNickname(text);
         }
-        if(category.equals("제목")) {
+        if (category.equals("제목")) {
           searchTitle(text);
         }
       }
@@ -92,11 +92,11 @@ public class SearchPanel extends JPanel {
 
     initFormPanel();
 
-    for(Post post : posts){
-      if(post.state().equals(Post.PROGRESS) &&
-        post.title().contains(text)) {
-        PostPanel postPanel = new PostPanel(posts,post,comment,
-            comments,mainPanel);
+    for (Post post : posts) {
+      if (post.state().equals(Post.PROGRESS) &&
+          post.title().contains(text)) {
+        PostPanel postPanel = new PostPanel(posts, post, comment,
+            comments, mainPanel);
         searchResultPanel.add(postPanel);
         postPanel.setVisible(true);
       }

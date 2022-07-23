@@ -1,4 +1,4 @@
-package models;
+package utils;
 
 public class RegistraionNumber {
   public static int RegistraionNumber = 0;

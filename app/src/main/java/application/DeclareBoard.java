@@ -1,8 +1,9 @@
+package application;
+
 import models.Comment;
 import models.Post;
-import models.RegistraionNumber;
+import utils.RegistraionNumber;
 import panels.CompletePostPanel;
-import panels.FrameBackGroundPanel;
 import panels.PostLikesPanel;
 import panels.PostViewsPanel;
 import panels.PostsPanel;
@@ -47,6 +48,7 @@ public class DeclareBoard {
 
     commentLoader = new CommentLoader(post);
     comments = commentLoader.loadComment();
+
     post = new Post();
   }
 
@@ -59,16 +61,7 @@ public class DeclareBoard {
 
     savePosts();
 
-    //frameImage();
-
     frame.setVisible(true);
-  }
-
-  private void frameImage() {
-    FrameBackGroundPanel frameBackGroundPanel = new FrameBackGroundPanel(new ImageIcon(
-        "BackGroundImage.jpeg").getImage());
-
-    frame.add(frameBackGroundPanel);
   }
 
   private void createFrame() {
@@ -201,8 +194,8 @@ public class DeclareBoard {
       public void windowClosing(WindowEvent event) {
         try {
           postLoader.postWriter(posts);
-          commentLoader.commentWriter(comments);
           postLoader.registraionNumberWriter();
+          commentLoader.commentWriter(comments);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

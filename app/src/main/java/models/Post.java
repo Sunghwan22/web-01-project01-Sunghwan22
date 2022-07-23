@@ -1,5 +1,7 @@
 package models;
 
+import utils.RegistraionNumber;
+
 public class Post {
   public static final String PROGRESS = "PROGRESS";
   public static final String COMPLETE = "COMPLETE";
